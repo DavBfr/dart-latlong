@@ -20,6 +20,8 @@
 part of latlong;
 
 class LengthUnit {
+  const LengthUnit(this.scaleFactor);
+
   static const LengthUnit Millimeter = LengthUnit(1000.0);
   static const LengthUnit Centimeter = LengthUnit(100.0);
   static const LengthUnit Meter = LengthUnit(1.0);
@@ -28,15 +30,13 @@ class LengthUnit {
 
   final double scaleFactor;
 
-  const LengthUnit(this.scaleFactor);
-
   double to(final LengthUnit unit, final num value) {
     if (unit.scaleFactor == scaleFactor) {
       return value;
     }
 
     // Convert to primary unit.
-    final double primaryValue = value / scaleFactor;
+    final primaryValue = value / scaleFactor;
 
     // Convert to destination unit.
     return primaryValue * unit.scaleFactor;

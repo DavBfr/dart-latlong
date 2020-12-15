@@ -14,15 +14,14 @@ void main() {
   // final Logger _logger = new Logger("test.Circle");
   // configLogging();
 
-  final LatLng base = LatLng(0.0, 0.0);
+  final base = LatLng(0.0, 0.0);
 
-  final Distance distance = const Distance();
+  const distance = Distance();
 
-  final Circle circle = Circle(base, 1000.0);
+  final circle = Circle(base, 1000.0);
 
-  final Distance distanceHaversine = const DistanceHaversine();
-  final Circle circleHaversine =
-      Circle(base, 1000.0, calculator: const Haversine());
+  const Distance distanceHaversine = DistanceHaversine();
+  final circleHaversine = Circle(base, 1000.0, calculator: const Haversine());
 
   group('Circle with Vincenty', () {
     setUp(() {});
@@ -30,64 +29,64 @@ void main() {
     test(
         '> isInside - distance from 0.0,0.0 to 1.0,0.0 is 110574 meter (based on Vincenty)',
         () {
-      final Circle circle = Circle(LatLng(0.0, 0.0), 110574.0);
-      final LatLng newPos = LatLng(1.0, 0.0);
+      final circle = Circle(LatLng(0.0, 0.0), 110574.0);
+      final newPos = LatLng(1.0, 0.0);
 
       // final double dist = new Distance().distance(circle.center,newPos);
       // print(dist);
 
       expect(circle.isPointInside(newPos), isTrue);
 
-      final Circle circle2 = Circle(LatLng(0.0, 0.0), 110573.0);
+      final circle2 = Circle(LatLng(0.0, 0.0), 110573.0);
       expect(circle2.isPointInside(newPos), isFalse);
     }); // end of 'isInside - ' test
 
     test('> isInside, bearing 0', () {
-      final num bearing = 0;
-      <num>[100, 500, 999, 1000].forEach((final num dist) {
+      const num bearing = 0;
+      for (final dist in <num>[100, 500, 999, 1000]) {
         expect(
             circle.isPointInside(distance.offset(base, dist, bearing)), isTrue);
-      });
+      }
       expect(
           circle.isPointInside(distance.offset(base, 1001, bearing)), isFalse);
     }); // end of 'isInside, bearing 0' test
 
     test('> isInside, bearing 90', () {
-      final num bearing = 90;
-      <num>[100, 500, 999, 1000].forEach((final num dist) {
+      const num bearing = 90;
+      for (final dist in <num>[100, 500, 999, 1000]) {
         expect(
             circle.isPointInside(distance.offset(base, dist, bearing)), isTrue);
-      });
+      }
       expect(
           circle.isPointInside(distance.offset(base, 1001, bearing)), isFalse);
     }); // end of 'isInside, bearing 0' test
 
     test('> isInside, bearing -90', () {
-      final num bearing = -90;
-      <num>[100, 500, 999, 1000].forEach((final num dist) {
+      const num bearing = -90;
+      for (final dist in <num>[100, 500, 999, 1000]) {
         expect(
             circle.isPointInside(distance.offset(base, dist, bearing)), isTrue);
-      });
+      }
       expect(
           circle.isPointInside(distance.offset(base, 1001, bearing)), isFalse);
     }); // end of 'isInside, bearing 0' test
 
     test('> isInside, bearing 180', () {
-      final num bearing = 180;
-      <num>[100, 500, 999, 1000].forEach((final num dist) {
+      const num bearing = 180;
+      for (final dist in <num>[100, 500, 999, 1000]) {
         expect(
             circle.isPointInside(distance.offset(base, dist, bearing)), isTrue);
-      });
+      }
       expect(
           circle.isPointInside(distance.offset(base, 1001, bearing)), isFalse);
     }); // end of 'isInside, bearing 0' test
 
     test('> isInside, bearing -180', () {
-      final num bearing = -180;
-      <num>[100, 500, 999, 1000].forEach((final num dist) {
+      const num bearing = -180;
+      for (final dist in <num>[100, 500, 999, 1000]) {
         expect(
             circle.isPointInside(distance.offset(base, dist, bearing)), isTrue);
-      });
+      }
       expect(
           circle.isPointInside(distance.offset(base, 1001, bearing)), isFalse);
     }); // end of 'isInside, bearing 0' test
@@ -96,30 +95,30 @@ void main() {
 
   group('Circle with Haversine', () {
     test('> isInside, bearing 0', () {
-      final num bearing = 0;
-      <num>[100, 500, 999, 1000].forEach((final num dist) {
+      const num bearing = 0;
+      for (final dist in <num>[100, 500, 999, 1000]) {
         expect(
             circleHaversine
                 .isPointInside(distanceHaversine.offset(base, dist, bearing)),
             isTrue);
-      });
+      }
 
-      <num>[1001, 1002, 1003, 1004, 1005, 1006, 1007].forEach((final num dist) {
+      for (final dist in <num>[1001, 1002, 1003, 1004, 1005, 1006, 1007]) {
         expect(
             circleHaversine
                 .isPointInside(distanceHaversine.offset(base, dist, bearing)),
             isFalse);
-      });
+      }
     }); // end of 'isInside, bearing 0' test
 
     test('> isInside, bearing 90', () {
-      final num bearing = 90;
-      <num>[100, 500, 999, 1000].forEach((final num dist) {
+      const num bearing = 90;
+      for (final dist in <num>[100, 500, 999, 1000]) {
         expect(
             circleHaversine
                 .isPointInside(distanceHaversine.offset(base, dist, bearing)),
             isTrue);
-      });
+      }
       expect(
           circleHaversine
               .isPointInside(distanceHaversine.offset(base, 1001, bearing)),
@@ -127,13 +126,13 @@ void main() {
     }); // end of 'isInside, bearing 0' test
 
     test('> isInside, bearing -90', () {
-      final num bearing = -90;
-      <num>[100, 500, 999, 1000].forEach((final num dist) {
+      const num bearing = -90;
+      for (final dist in <num>[100, 500, 999, 1000]) {
         expect(
             circleHaversine
                 .isPointInside(distanceHaversine.offset(base, dist, bearing)),
             isTrue);
-      });
+      }
       expect(
           circleHaversine
               .isPointInside(distanceHaversine.offset(base, 1001, bearing)),
@@ -141,13 +140,13 @@ void main() {
     }); // end of 'isInside, bearing 0' test
 
     test('> isInside, bearing 180', () {
-      final num bearing = 180;
-      <num>[100, 500, 999, 1000].forEach((final num dist) {
+      const num bearing = 180;
+      for (final dist in <num>[100, 500, 999, 1000]) {
         expect(
             circleHaversine
                 .isPointInside(distanceHaversine.offset(base, dist, bearing)),
             isTrue);
-      });
+      }
 
       expect(
           circleHaversine
@@ -156,13 +155,13 @@ void main() {
     }); // end of 'isInside, bearing 0' test
 
     test('> isInside, bearing -180', () {
-      final num bearing = -180;
-      <num>[100, 500, 999, 1000].forEach((final num dist) {
+      const num bearing = -180;
+      for (final dist in <num>[100, 500, 999, 1000]) {
         expect(
             circleHaversine
                 .isPointInside(distanceHaversine.offset(base, dist, bearing)),
             isTrue);
-      });
+      }
 
       expect(
           circleHaversine

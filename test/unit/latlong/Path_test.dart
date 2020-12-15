@@ -11,8 +11,8 @@ import 'package:latlong/latlong.dart';
 // import "package:console_log_handler/print_log_handler.dart";
 
 final Map<String, LatLng> cities = <String, LatLng>{
-  "berlin": LatLng(52.518611, 13.408056),
-  "moscow": LatLng(55.751667, 37.617778),
+  'berlin': LatLng(52.518611, 13.408056),
+  'moscow': LatLng(55.751667, 37.617778),
 };
 
 final List<LatLng> route = <LatLng>[
@@ -81,16 +81,16 @@ void main() {
     test(
         '> The total size of a path with 1000m lengt devided by 10sections must have the same'
         'length as the base path', () {
-      final Distance distance = Distance();
-      final LatLng startPos = LatLng(0.0, 0.0);
-      final LatLng endPos = distance.offset(startPos, 1000, 0);
+      const distance = Distance();
+      final startPos = LatLng(0.0, 0.0);
+      final endPos = distance.offset(startPos, 1000, 0);
 
       expect(distance(startPos, endPos), 1000);
 
-      final Path path = Path.from(<LatLng>[startPos, endPos]);
+      final path = Path.from(<LatLng>[startPos, endPos]);
       expect(path.distance, 1000);
 
-      final Path steps = path.equalize(100, smoothPath: false);
+      final steps = path.equalize(100, smoothPath: false);
 
       // _exportForGoogleEarth(steps);
       expect(steps.distance, 1000);
@@ -100,22 +100,22 @@ void main() {
     test(
         '> 10 smoothd out steps in total have approximatly!!! the same lenght '
         'as the base path', () {
-      final Distance distance = Distance();
-      final LatLng startPos = LatLng(0.0, 0.0);
-      final LatLng endPos = distance.offset(startPos, 1000, 0);
+      const distance = Distance();
+      final startPos = LatLng(0.0, 0.0);
+      final endPos = distance.offset(startPos, 1000, 0);
 
       expect(distance(startPos, endPos), 1000);
 
-      final Path path = Path.from(<LatLng>[startPos, endPos]);
+      final path = Path.from(<LatLng>[startPos, endPos]);
       expect(path.distance, 1000);
 
-      final Path steps = path.equalize(100, smoothPath: false);
+      final steps = path.equalize(100, smoothPath: false);
 
       expect(steps.distance, inInclusiveRange(999, 1001));
       expect(steps.coordinates.length, 11);
 
       //_exportForGoogleEarth(steps);
-      for (int index = 0; index < steps.nrOfCoordinates - 1; index++) {
+      for (var index = 0; index < steps.nrOfCoordinates - 1; index++) {
         // 46?????
         expect(distance(steps[index], steps[index + 1]),
             inInclusiveRange(46, 112));
@@ -123,18 +123,18 @@ void main() {
     }); // end of '10 intermediate steps in 1000m should have the same length' test
 
     test('> Path with 3 sections', () {
-      final Distance distance = Distance();
-      final LatLng startPos = LatLng(0.0, 0.0);
-      final LatLng pos1 = distance.offset(startPos, 50, 0);
-      final LatLng pos2 = distance.offset(pos1, 15, 0);
-      final LatLng pos3 = distance.offset(pos2, 5, 0);
+      const distance = Distance();
+      final startPos = LatLng(0.0, 0.0);
+      final pos1 = distance.offset(startPos, 50, 0);
+      final pos2 = distance.offset(pos1, 15, 0);
+      final pos3 = distance.offset(pos2, 5, 0);
 
       expect(distance(startPos, pos3), 70);
 
-      final Path path = Path.from(<LatLng>[startPos, pos1, pos2, pos3]);
+      final path = Path.from(<LatLng>[startPos, pos1, pos2, pos3]);
       expect(path.distance, 70);
 
-      final Path steps = path.equalize(30, smoothPath: false);
+      final steps = path.equalize(30, smoothPath: false);
       //_exportForGoogleEarth(steps);
 
       expect(steps.nrOfCoordinates, 4);
@@ -143,14 +143,14 @@ void main() {
     test(
         '> Reality Test - Westendorf, short, should 210m (same as Google Earth)',
         () {
-      final Path path = Path.from(westendorf);
+      final path = Path.from(westendorf);
       expect(path.distance, 210);
 
       // first point to last point!
-      final Distance distance = Distance();
+      const distance = Distance();
       expect(distance(westendorf.first, westendorf.last), 209);
 
-      final Path steps = path.equalize(5);
+      final steps = path.equalize(5);
       expect(steps.nrOfCoordinates, 44);
 
       _exportForGoogleEarth(steps, show: false);
@@ -159,14 +159,14 @@ void main() {
     test(
         '> ZigZag, according to Google-Earth - 282m,'
         'first to last point 190m (acc. movable-type.co.uk (Haversine)', () {
-      final Path path = Path.from(zigzag);
+      final path = Path.from(zigzag);
       expect(path.distance, 282);
 
       // first point to last point!
-      final Distance distance = Distance();
+      const distance = Distance();
       expect(distance(zigzag.first, zigzag.last), 190);
 
-      final Path steps = path.equalize(8, smoothPath: true);
+      final steps = path.equalize(8, smoothPath: true);
 
       // 282 / 8 = 35,25 + first + last
       expect(steps.nrOfCoordinates, 36);
@@ -185,19 +185,19 @@ void main() {
 
   group('PathLength', () {
     test('> Distance of empty path should be 0', () {
-      final Path path = Path();
+      final path = Path();
 
       expect(path.distance, 0);
     }); // end of 'Distance of empty path should be 0' test
 
     test('> Path length should be 3377m', () {
-      final Path path = Path.from(route);
+      final path = Path.from(route);
 
       expect(path.distance, 3377);
     }); // end of 'Path length should be 3377m' test
 
     test('> Path lenght should be 3.377km', () {
-      final Path path = Path.from(route);
+      final path = Path.from(route);
 
       expect(
           round(LengthUnit.Meter.to(LengthUnit.Kilometer, path.distance),
@@ -210,7 +210,7 @@ void main() {
     test(
         '> Center between Berlin and Moscow should be near Minsk '
         '(54.743683,25.033239)', () {
-      final Path path = Path.from([cities['berlin'], cities['moscow']]);
+      final path = Path.from([cities['berlin'], cities['moscow']]);
 
       expect(path.center.latitude, 54.743683);
       expect(path.center.longitude, 25.033239);
@@ -241,14 +241,14 @@ void main() {
 /// Print CSV-date on the cmdline
 void _exportForGoogleEarth(final Path steps, {final bool show = true}) {
   if (show) {
-    final Distance distance = Distance();
+    const distance = Distance();
 
-    print("latitude,longitude,distance");
-    for (int index = 0; index < steps.nrOfCoordinates - 1; index++) {
+    print('latitude,longitude,distance');
+    for (var index = 0; index < steps.nrOfCoordinates - 1; index++) {
       print(
-          "${steps[index].latitude}, ${steps[index].longitude}, ${distance(steps[index], steps[index + 1])}");
+          '${steps[index].latitude}, ${steps[index].longitude}, ${distance(steps[index], steps[index + 1])}');
     }
 
-    print("${steps.last.latitude}, ${steps.last.longitude}, 0");
+    print('${steps.last.latitude}, ${steps.last.longitude}, 0');
   }
 }

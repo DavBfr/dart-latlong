@@ -9,7 +9,7 @@ import 'package:latlong/spline.dart';
 // Commandline
 // import "package:console_log_handler/print_log_handler.dart";
 
-void main() async {
+Future<void> main() async {
   // final Logger _logger = new Logger("test.CatmullRom");
   // configLogging();
 
@@ -17,7 +17,7 @@ void main() async {
     setUp(() {});
 
     test('> one dimension', () {
-      final CatmullRomSpline spline = CatmullRomSpline(1, 2, 2, 1);
+      const spline = CatmullRomSpline(1, 2, 2, 1);
 
       expect(spline.position(0.25), 2.09375);
       expect(spline.position(0.5), 2.125);
@@ -25,7 +25,7 @@ void main() async {
     }); // end of 'one dimension' test
 
     test('> no endpoints', () {
-      final CatmullRomSpline spline = CatmullRomSpline.noEndpoints(1, 2);
+      const spline = CatmullRomSpline.noEndpoints(1, 2);
 
       expect(spline.position(0.25), 1.203125);
       expect(spline.position(0.5), 1.5);
@@ -38,7 +38,7 @@ void main() async {
 
   group('CatmullRom 2D', () {
     test('> Simple values', () {
-      final CatmullRomSpline2D spline = CatmullRomSpline2D(
+      final spline = CatmullRomSpline2D(
           Point2D(1, 1), Point2D(2, 2), Point2D(2, 2), Point2D(1, 1));
 
       expect(spline.position(0.25).x, 2.09375);
@@ -54,7 +54,7 @@ void main() async {
     });
 
     test('> no Endpoints', () {
-      final CatmullRomSpline2D spline =
+      final spline =
           CatmullRomSpline2D.noEndpoints(Point2D(1, 1), Point2D(2, 2));
 
       expect(spline.position(0.25).x, 1.203125);
@@ -62,7 +62,7 @@ void main() async {
     }); // end of 'no Endpoints' test
 
     test('> Exception', () {
-      final CatmullRomSpline2D spline =
+      final spline =
           CatmullRomSpline2D.noEndpoints(Point2D(1, 1), Point2D(2, 2));
 
       expect(() => spline.position(3.0).x, throwsArgumentError);

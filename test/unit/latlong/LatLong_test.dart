@@ -46,17 +46,17 @@ void main() {
     }); // end of 'Range' test
 
     test('> Rad', () {
-      expect((LatLng(-80.0, 0.0)).latitudeInRad, -1.3962634015954636);
-      expect((LatLng(90.0, 0.0)).latitudeInRad, 1.5707963267948966);
-      expect((LatLng(0.0, 80.0)).longitudeInRad, 1.3962634015954636);
-      expect((LatLng(0.0, 90.0)).longitudeInRad, 1.5707963267948966);
+      expect(LatLng(-80.0, 0.0).latitudeInRad, -1.3962634015954636);
+      expect(LatLng(90.0, 0.0).latitudeInRad, 1.5707963267948966);
+      expect(LatLng(0.0, 80.0).longitudeInRad, 1.3962634015954636);
+      expect(LatLng(0.0, 90.0).longitudeInRad, 1.5707963267948966);
     }); // end of 'Rad' test
 
     test('> toString', () {
-      expect((LatLng(-80.0, 0.0)).toString(),
-          "LatLng(latitude:-80.0, longitude:0.0)");
-      expect((LatLng(-80.123456, 0.0)).toString(),
-          "LatLng(latitude:-80.123456, longitude:0.0)");
+      expect(LatLng(-80.0, 0.0).toString(),
+          'LatLng(latitude:-80.0, longitude:0.0)');
+      expect(LatLng(-80.123456, 0.0).toString(),
+          'LatLng(latitude:-80.123456, longitude:0.0)');
     }); // end of 'toString' test
 
     test('> equal', () {

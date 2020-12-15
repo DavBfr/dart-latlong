@@ -23,15 +23,15 @@ part of latlong;
 ///
 /// Circle uses by default the Vincenty-Algorithm for distance computations
 class Circle {
+  Circle(final this.center, this.radius,
+      {final DistanceCalculator calculator = const Vincenty()})
+      : _calculator = calculator;
+
   // final Logger _logger = new Logger('latlong.Circle');
 
   final double radius;
   final LatLng center;
   final DistanceCalculator _calculator;
-
-  Circle(final LatLng this.center, this.radius,
-      {final DistanceCalculator calculator = const Vincenty()})
-      : _calculator = calculator;
 
   /// Checks if a [point] is inside the given [Circle]
   ///
@@ -47,7 +47,7 @@ class Circle {
   bool isPointInside(final LatLng point) {
     Validate.notNull(point);
 
-    final Distance distance = Distance(calculator: _calculator);
+    final distance = Distance(calculator: _calculator);
 
     final double dist = distance(center, point);
     return dist <= radius;

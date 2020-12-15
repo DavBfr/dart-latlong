@@ -24,29 +24,28 @@ part of latlong;
 ///     final Location location = new Location(10.000002,12.00001);
 ///
 class LatLng {
+  LatLng(this._latitude, this._longitude) {
+    Validate.inclusiveBetween(-90.0, 90.0, _latitude,
+        'Latitude must be between -90 and 90 degrees but was $_latitude');
+    Validate.inclusiveBetween(-180.0, 180.0, _longitude,
+        'Longitude must be between -180 and 180 degrees but was $_longitude');
+  }
   // final Logger _logger = new Logger('latlong.LatLng');
 
   double _latitude;
   double _longitude;
 
-  LatLng(this._latitude, this._longitude) {
+  set latitude(final double value) {
     Validate.inclusiveBetween(-90.0, 90.0, _latitude,
-        "Latitude must be between -90 and 90 degrees but was $_latitude");
-    Validate.inclusiveBetween(-180.0, 180.0, _longitude,
-        "Longitude must be between -180 and 180 degrees but was $_longitude");
-  }
-
-  void set latitude(final double value) {
-    Validate.inclusiveBetween(-90.0, 90.0, _latitude,
-        "Latitude must be between -90 and 90 degrees but was $_latitude");
+        'Latitude must be between -90 and 90 degrees but was $_latitude');
     _latitude = value;
   }
 
   double get latitude => _latitude;
 
-  void set longitude(final double value) {
+  set longitude(final double value) {
     Validate.inclusiveBetween(-180.0, 180.0, _longitude,
-        "Longitude must be between -180 and 180 degrees but was $_longitude");
+        'Longitude must be between -180 and 180 degrees but was $_longitude');
     _longitude = value;
   }
 
@@ -56,6 +55,7 @@ class LatLng {
 
   double get longitudeInRad => degToRadian(_longitude);
 
+  @override
   String toString() =>
       'LatLng(latitude:${NumberFormat("0.0#####").format(latitude)}, '
       'longitude:${NumberFormat("0.0#####").format(longitude)})';
@@ -68,13 +68,15 @@ class LatLng {
   ///     print(p1..toSexagesimal());
   ///
   String toSexagesimal() {
-    String latDirection = latitude >= 0 ? "N" : "S";
-    String lonDirection = longitude >= 0 ? "O" : "W";
-    return "${decimal2sexagesimal(latitude)} ${latDirection}, ${decimal2sexagesimal(longitude)} ${lonDirection}";
+    final latDirection = latitude >= 0 ? 'N' : 'S';
+    final lonDirection = longitude >= 0 ? 'O' : 'W';
+    return '${decimal2sexagesimal(latitude)} $latDirection, ${decimal2sexagesimal(longitude)} $lonDirection';
   }
 
+  @override
   int get hashCode => latitude.hashCode + longitude.hashCode;
 
+  @override
   bool operator ==(final Object other) =>
       other is LatLng &&
       latitude == other.latitude &&

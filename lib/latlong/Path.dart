@@ -43,6 +43,17 @@ LatLng _defaultLatLngFactory(final double latitude, final double longitude) =>
 ///     final Path<Location> path = new Path<Location>(factory: locationFactory);
 ///
 class Path<T extends LatLng> {
+  Path({final LatLngFactory factory = _defaultLatLngFactory})
+      : _coordinates = <T>[],
+        _latLngFactory = factory;
+
+  Path.from(final Iterable<T> coordinates,
+      {final LatLngFactory factory = _defaultLatLngFactory})
+      : _coordinates = List<T>.from(coordinates),
+        _latLngFactory = factory {
+    Validate.notNull(coordinates);
+  }
+
   final Logger _logger = Logger('latlong.Path');
 
   /// Coordinates managed by this class
@@ -52,17 +63,6 @@ class Path<T extends LatLng> {
   final Distance _distance = const Distance();
 
   final LatLngFactory _latLngFactory;
-
-  Path({final LatLngFactory factory = _defaultLatLngFactory})
-      : _coordinates = List<T>(),
-        _latLngFactory = factory;
-
-  Path.from(final Iterable<T> coordinates,
-      {final LatLngFactory factory = _defaultLatLngFactory})
-      : _coordinates = List<T>.from(coordinates),
-        _latLngFactory = factory {
-    Validate.notNull(coordinates);
-  }
 
   List<T> get coordinates => _coordinates;
 
@@ -100,11 +100,11 @@ class Path<T extends LatLng> {
   Path equalize(final num distanceInMeterPerTime,
       {final bool smoothPath = true}) {
     Validate.isTrue(
-        distanceInMeterPerTime > 0, "Distance must be greater than 0");
+        distanceInMeterPerTime > 0, 'Distance must be greater than 0');
     Validate.isTrue(
         (smoothPath && _coordinates.length >= 3) ||
             (!smoothPath && _coordinates.length >= 2),
-        "At least ${smoothPath ? 3 : 2} coordinates are needed to create the steps in between");
+        'At least ${smoothPath ? 3 : 2} coordinates are needed to create the steps in between');
 
     // If we "smooth" the path every second step becomes a spline - so every other step
     // becomes a "Keyframe". A step on the given path
@@ -114,12 +114,12 @@ class Path<T extends LatLng> {
 
     final double baseLength = distance;
     Validate.isTrue(baseLength >= stepDistance,
-        "Path distance must be at least ${stepDistance}mn (step distance) but was ${baseLength}");
+        'Path distance must be at least ${stepDistance}mn (step distance) but was $baseLength');
 
     if (stepDistance > baseLength / 2) {
       _logger.warning(
-          "Equalizing the path (L: $baseLength) with a key-frame distance of $stepDistance leads to"
-          "weired results. Turn of path smooting.");
+          'Equalizing the path (L: $baseLength) with a key-frame distance of $stepDistance leads to'
+          'weired results. Turn of path smooting.');
     }
 
     // no steps possible - so return an empty path
@@ -127,16 +127,16 @@ class Path<T extends LatLng> {
       return Path.from([_coordinates.first, _coordinates.last]);
     }
 
-    final List<T> tempCoordinates = List.from(_coordinates);
-    final Path path = Path();
+    final tempCoordinates = List<T>.from(_coordinates);
+    final path = Path();
 
-    double remainingSteps = 0.0;
+    var remainingSteps = 0.0;
     double bearing;
 
     path.add(tempCoordinates.first);
-    T baseStep = tempCoordinates.first;
+    var baseStep = tempCoordinates.first;
 
-    for (int index = 0; index < coordinates.length - 1; index++) {
+    for (var index = 0; index < coordinates.length - 1; index++) {
       final double distance =
           _distance(tempCoordinates[index], tempCoordinates[index + 1]);
 
@@ -147,23 +147,22 @@ class Path<T extends LatLng> {
       if (remainingSteps <= distance ||
           (stepDistance - remainingSteps) <= distance) {
         // First step position
-        double firstStepPos = stepDistance - remainingSteps;
+        var firstStepPos = stepDistance - remainingSteps;
 
-        final double steps = ((distance - firstStepPos) / stepDistance) + 1;
+        final steps = ((distance - firstStepPos) / stepDistance) + 1;
 
-        final int fullSteps = steps.toInt();
+        final fullSteps = steps.toInt();
         remainingSteps =
             round(fullSteps > 0 ? steps % fullSteps : steps, decimals: 6) *
                 stepDistance;
 
         baseStep = tempCoordinates[index];
 
-        for (int stepCounter = 0; stepCounter < fullSteps; stepCounter++) {
+        for (var stepCounter = 0; stepCounter < fullSteps; stepCounter++) {
           // Add step on the given path
           // Intermediate step is necessary to stay type-safe
-          final LatLng tempStep =
-              _distance.offset(baseStep, firstStepPos, bearing);
-          final LatLng nextStep =
+          final tempStep = _distance.offset(baseStep, firstStepPos, bearing);
+          final nextStep =
               _latLngFactory(tempStep.latitude, tempStep.longitude);
           path.add(nextStep);
           firstStepPos += stepDistance;
@@ -178,7 +177,7 @@ class Path<T extends LatLng> {
               // Insert new point between 0 and 1
               path.coordinates.insert(1, _pointToLatLng(spline.percentage(50)));
             } else if (path.nrOfCoordinates > 3) {
-              final int baseIndex = path.nrOfCoordinates - 1;
+              final baseIndex = path.nrOfCoordinates - 1;
               spline = _createSpline(path[baseIndex - 3], path[baseIndex - 2],
                   path[baseIndex - 1], path[baseIndex]);
 
@@ -203,13 +202,10 @@ class Path<T extends LatLng> {
 
     if (smoothPath) {
       // Last Spline between the last 4 elements
-      int baseIndex = path.nrOfCoordinates - 1;
+      var baseIndex = path.nrOfCoordinates - 1;
       if (baseIndex > 3) {
-        final CatmullRomSpline2D<double> spline = _createSpline(
-            path[baseIndex - 3],
-            path[baseIndex - 2],
-            path[baseIndex - 1],
-            path[baseIndex - 0]);
+        final spline = _createSpline(path[baseIndex - 3], path[baseIndex - 2],
+            path[baseIndex - 1], path[baseIndex - 0]);
 
         path.coordinates
             .insert(baseIndex - 1, _pointToLatLng(spline.percentage(50)));
@@ -219,11 +215,8 @@ class Path<T extends LatLng> {
       // Could be because of reminder from path divisions
       baseIndex = path.nrOfCoordinates - 1;
       if (_distance(path[baseIndex - 1], path[baseIndex]) >= stepDistance) {
-        final CatmullRomSpline2D<double> spline = _createSpline(
-            path[baseIndex - 1],
-            path[baseIndex - 1],
-            path[baseIndex - 0],
-            path[baseIndex - 0]);
+        final spline = _createSpline(path[baseIndex - 1], path[baseIndex - 1],
+            path[baseIndex - 0], path[baseIndex - 0]);
 
         path.coordinates
             .insert(baseIndex, _pointToLatLng(spline.percentage(50)));
@@ -241,10 +234,10 @@ class Path<T extends LatLng> {
   ///     print(path.length);
   ///
   num get distance {
-    final List<T> tempCoordinates = List.from(_coordinates);
-    double length = 0.0;
+    final tempCoordinates = List<T>.from(_coordinates);
+    var length = 0.0;
 
-    for (int index = 0; index < coordinates.length - 1; index++) {
+    for (var index = 0; index < coordinates.length - 1; index++) {
       length += _distance(tempCoordinates[index], tempCoordinates[index + 1]);
     }
     return round(length);
@@ -254,24 +247,24 @@ class Path<T extends LatLng> {
   ///
   /// The function rounds the result to 6 decimals
   LatLng get center {
-    Validate.notEmpty(coordinates, "Coordinates must not be empty!");
+    Validate.notEmpty(coordinates, 'Coordinates must not be empty!');
 
-    double X = 0.0;
-    double Y = 0.0;
-    double Z = 0.0;
+    var X = 0.0;
+    var Y = 0.0;
+    var Z = 0.0;
 
     double lat, lon, hyp;
 
-    coordinates.forEach((final T coordinate) {
+    for (final coordinate in coordinates) {
       lat = coordinate.latitudeInRad;
       lon = coordinate.longitudeInRad;
 
       X += math.cos(lat) * math.cos(lon);
       Y += math.cos(lat) * math.sin(lon);
       Z += math.sin(lat);
-    });
+    }
 
-    final int nrOfCoordinates = coordinates.length;
+    final nrOfCoordinates = coordinates.length;
     X = X / nrOfCoordinates;
     Y = Y / nrOfCoordinates;
     Z = Z / nrOfCoordinates;

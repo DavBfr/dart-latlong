@@ -13,7 +13,7 @@
 
 DART_SRC=$(shell find . -name '*.dart')
 
-all: example/.metadata format
+all: format
 
 format: format-dart
 
@@ -23,12 +23,10 @@ format-dart: $(DART_SRC)
 clean:
 	git clean -fdx -e .vscode
 
-node_modules:
-	npm install lcov-summary
-
-test: node_modules
-	dart test --coverage --coverage-path lcov.info
-	cat lcov.info | node_modules/.bin/lcov-summary
+test:
+	dart pub get
+	dart pub run test --coverage=.coverage
+	dart pub global run coverage:format_coverage --packages=.packages -i .coverage --report-on lib --lcov --out lcov.info
 
 publish: format analyze clean
 	test -z "$(shell git status --porcelain)"
@@ -37,21 +35,17 @@ publish: format analyze clean
 	find . -name pubspec.yaml -exec sed -i -e 's/^_dependency_overrides:/dependency_overrides:/g' '{}' ';'
 	git tag $(shell grep version pubspec.yaml | sed 's/version\s*:\s*/v/g')
 
-.dartfix:
-	pub global activate dartfix
-	touch $@
-
 .pana:
-	pub global activate pana
+	dart pub global activate pana
 	touch $@
 
-fix: .dartfix $(DART_SRC)
-	pub global run dartfix --overwrite .
+fix: $(DART_SRC)
+	dart fix --apply
 
 analyze: $(DART_SRC)
 	flutter analyze --suppress-analytics
 
 pana: .pana
-	flutter pub global run pana --no-warning --source path .
+	dart pub global run pana --no-warning --source path .
 
 .PHONY: format format-dart clean publish test fix analyze

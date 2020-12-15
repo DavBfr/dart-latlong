@@ -20,10 +20,10 @@
 part of spline;
 
 class Point2D<T extends num> {
+  Point2D(this.x, this.y);
+
   final T x;
   final T y;
-
-  Point2D(this.x, this.y);
 }
 
 abstract class CatmullRom<R> {
@@ -34,10 +34,6 @@ abstract class CatmullRom<R> {
 }
 
 class CatmullRomSpline<T extends num> extends CatmullRom<double> {
-  // final Logger _logger = new Logger('spline.CatmullRomSpline');
-
-  final T _p0, _p1, _p2, _p3;
-
   const CatmullRomSpline(this._p0, this._p1, this._p2, this._p3);
   const CatmullRomSpline.noEndpoints(final T p1, final T p2)
       : _p0 = p1,
@@ -45,10 +41,14 @@ class CatmullRomSpline<T extends num> extends CatmullRom<double> {
         _p2 = p2,
         _p3 = p2;
 
+  // final Logger _logger = new Logger('spline.CatmullRomSpline');
+
+  final T _p0, _p1, _p2, _p3;
+
   @override
   double position(final double distance) {
     Validate.inclusiveBetween(
-        0, 1, distance, "Distance must be beteen 0 and 1 but was $distance");
+        0, 1, distance, 'Distance must be beteen 0 and 1 but was $distance');
 
     return 0.5 *
         ((2 * _p1) +
@@ -59,11 +59,6 @@ class CatmullRomSpline<T extends num> extends CatmullRom<double> {
 }
 
 class CatmullRomSpline2D<T extends num> extends CatmullRom<Point2D<double>> {
-  final Point2D<T> _p0;
-  final Point2D<T> _p1;
-  final Point2D<T> _p2;
-  final Point2D<T> _p3;
-
   CatmullRomSpline2D(this._p0, this._p1, this._p2, this._p3) {
     Validate.notNull(_p0);
     Validate.notNull(_p1);
@@ -80,10 +75,15 @@ class CatmullRomSpline2D<T extends num> extends CatmullRom<Point2D<double>> {
     Validate.notNull(p1);
   }
 
+  final Point2D<T> _p0;
+  final Point2D<T> _p1;
+  final Point2D<T> _p2;
+  final Point2D<T> _p3;
+
   @override
   Point2D<double> position(final double distance) {
     Validate.inclusiveBetween(
-        0, 1, distance, "Distance must be beteen 0 and 1 but was $distance");
+        0, 1, distance, 'Distance must be beteen 0 and 1 but was $distance');
 
     return Point2D<double>(
         CatmullRomSpline<T>(_p0.x, _p1.x, _p2.x, _p3.x).position(distance),

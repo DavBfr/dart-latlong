@@ -33,12 +33,6 @@ part of latlong;
 ///      final int meter = distance(new LatLng(52.518611,13.408056),new LatLng(51.519475,7.46694444));
 ///
 class Distance implements DistanceCalculator {
-  // final Logger _logger = new Logger('latlong.Distance');
-
-  final double _radius;
-  final bool _roundResult;
-  final DistanceCalculator _calculator;
-
   const Distance(
       {final bool roundResult = true,
       final DistanceCalculator calculator = const Vincenty()})
@@ -53,8 +47,14 @@ class Distance implements DistanceCalculator {
         _roundResult = roundResult,
         _calculator = calculator {
     Validate.isTrue(
-        radius > 0, "Radius must be greater than 0 but was $radius");
+        radius > 0, 'Radius must be greater than 0 but was $radius');
   }
+
+  // final Logger _logger = new Logger('latlong.Distance');
+
+  final double _radius;
+  final bool _roundResult;
+  final DistanceCalculator _calculator;
 
   double get radius => _radius;
 
@@ -130,7 +130,7 @@ class Distance implements DistanceCalculator {
   //- private -----------------------------------------------------------------------------------
 
   double _round(final double value) =>
-      (_roundResult ? value.round().toDouble() : value);
+      _roundResult ? value.round().toDouble() : value;
 }
 
 /// Shortcut for
@@ -145,7 +145,7 @@ class DistanceVincenty extends Distance {
       : super.withRadius(radius,
             roundResult: roundResult, calculator: const Vincenty()) {
     Validate.isTrue(
-        radius > 0, "Radius must be greater than 0 but was $radius");
+        radius > 0, 'Radius must be greater than 0 but was $radius');
   }
 }
 
@@ -161,6 +161,6 @@ class DistanceHaversine extends Distance {
       : super.withRadius(radius,
             roundResult: roundResult, calculator: const Haversine()) {
     Validate.isTrue(
-        radius > 0, "Radius must be greater than 0 but was $radius");
+        radius > 0, 'Radius must be greater than 0 but was $radius');
   }
 }

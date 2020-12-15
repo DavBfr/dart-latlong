@@ -10,7 +10,7 @@ import 'package:latlong/latlong.dart';
 // Commandline
 // import "package:console_log_handler/print_log_handler.dart";
 
-void main() async {
+Future<void> main() async {
   // final Logger _logger = new Logger("test.LengthUnit");
   // configLogging();
 

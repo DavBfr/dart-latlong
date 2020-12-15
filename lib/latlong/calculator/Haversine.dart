@@ -61,16 +61,16 @@ class Haversine implements DistanceCalculator {
   LatLng offset(
       final LatLng from, final double distanceInMeter, final double bearing) {
     Validate.inclusiveBetween(-180.0, 180.0, bearing,
-        "Angle must be between -180 and 180 degrees but was $bearing");
+        'Angle must be between -180 and 180 degrees but was $bearing');
 
-    final double h = degToRadian(bearing.toDouble());
+    final h = degToRadian(bearing.toDouble());
 
-    final double a = distanceInMeter / EQUATOR_RADIUS;
+    final a = distanceInMeter / EQUATOR_RADIUS;
 
-    final double lat2 = math.asin(math.sin(from.latitudeInRad) * math.cos(a) +
+    final lat2 = math.asin(math.sin(from.latitudeInRad) * math.cos(a) +
         math.cos(from.latitudeInRad) * math.sin(a) * math.cos(h));
 
-    final double lng2 = from.longitudeInRad +
+    final lng2 = from.longitudeInRad +
         math.atan2(math.sin(h) * math.sin(a) * math.cos(from.latitudeInRad),
             math.cos(a) - math.sin(from.latitudeInRad) * math.sin(lat2));
 
