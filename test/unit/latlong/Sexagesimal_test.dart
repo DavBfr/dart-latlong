@@ -1,21 +1,7 @@
-//@TestOn("content-shell")
+import 'package:latlong/latlong.dart';
 import 'package:test/test.dart';
 
-import 'package:latlong/latlong.dart';
-// import 'package:logging/logging.dart';
-
-// Browser
-// import "package:console_log_handler/console_log_handler.dart";
-
-// Commandline
-// import "package:console_log_handler/print_log_handler.dart";
-
 Future<void> main() async {
-  // final Logger _logger = new Logger("test.Sexagesimal");
-  // configLogging();
-
-  //await saveDefaultCredentials();
-
   group('Sexagesimal', () {
     setUp(() {});
 
@@ -30,9 +16,6 @@ Future<void> main() async {
 
       final p1 = LatLng(51.519475, -19.37555556);
       expect(p1.toSexagesimal(), '51° 31\' 10.11" N, 19° 22\' 32.00" W');
-    }); // end of 'decimal2sexagesimal' test
+    });
   });
-  // End of 'Sexagesimal' group
 }
-
-// - Helper --------------------------------------------------------------------------------------

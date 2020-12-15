@@ -25,7 +25,7 @@ clean:
 
 test:
 	dart pub get
-	dart pub run test --coverage=.coverage
+	dart run test --coverage=.coverage
 	dart pub global run coverage:format_coverage --packages=.packages -i .coverage --report-on lib --lcov --out lcov.info
 
 publish: format analyze clean

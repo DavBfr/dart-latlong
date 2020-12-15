@@ -1,33 +1,21 @@
-//@TestOn("content-shell")
+import 'package:latlong/latlong.dart';
 import 'package:test/test.dart';
 
-import 'package:latlong/latlong.dart';
-// import 'package:logging/logging.dart';
-
-// Browser
-// import "package:console_log_handler/console_log_handler.dart";
-
-// Commandline
-// import "package:console_log_handler/print_log_handler.dart";
-
 void main() {
-  // final Logger _logger = new Logger("test.Distance");
-  // configLogging();
-
   group('Distance', () {
     setUp(() {});
 
     test('> Radius', () {
       expect(const Distance().radius, EARTH_RADIUS);
       expect(Distance.withRadius(100.0).radius, 100.0);
-    }); // end of 'Radius' test
+    });
 
     test('> Distance to the same point is 0', () {
       const compute = Distance();
       final p = LatLng(0.0, 0.0);
 
       expect(compute.distance(p, p), equals(0));
-    }); // end of 'Simple distance' test
+    });
 
     test('> Distance between 0 and 90.0 is around 10.000km', () {
       const distance = Distance();
@@ -44,7 +32,7 @@ void main() {
       // rounds to 10002
       expect(distance.as(LengthUnit.Kilometer, p1, p2), equals(10002));
       expect(distance.as(LengthUnit.Meter, p1, p2), equals(10001966));
-    }); // end of 'Distance between 0 and 90.0' test
+    });
 
     test('> Distance between 0 and 90.0 is 10001.96572931165 km ', () {
       const distance = Distance(roundResult: false);
@@ -53,7 +41,7 @@ void main() {
 
       expect(
           distance.as(LengthUnit.Kilometer, p1, p2), equals(10001.96572931165));
-    }); // end of 'Round' test
+    });
 
     test('> distance between 0,-180 and 0,180 is 0', () {
       const distance = Distance();
@@ -61,7 +49,7 @@ void main() {
       final p2 = LatLng(0.0, 180.0);
 
       expect(distance(p1, p2), 0);
-    }); // end of 'distance between 0,-180 and 0,180 is 0' test
+    });
 
     group('Vincenty', () {
       test('> Test 1', () {
@@ -77,7 +65,7 @@ void main() {
                 LatLng(51.519475, 7.46694444)),
             423);
       });
-    }); // End of 'Vincenty' group
+    });
 
     group('Haversine - not so accurate', () {
       test('> Test 1', () {
@@ -88,9 +76,8 @@ void main() {
                 LatLng(52.518611, 13.408056), LatLng(51.519475, 7.46694444)),
             421786.0);
       });
-    }); // End of 'Haversine' group
+    });
   });
-  // End of 'Distance' group
 
   group('Bearing', () {
     test('bearing to the same point is 0 degree', () {
@@ -128,7 +115,7 @@ void main() {
       expect(distance.bearing(p1, p2), equals(-90));
       expect(normalizeBearing(distance.bearing(p1, p2)), equals(270));
     });
-  }); // End of 'Direction' group
+  });
 
   group('Offset', () {
     test('offset from 0,0 with bearing 0 and distance 10018.754 km is 90,180',
@@ -185,7 +172,5 @@ void main() {
       expect(p2.latitude.round(), equals(0));
       expect(p2.longitude.round(), equals(45));
     });
-  }); // End of 'Offset' group
+  });
 }
-
-// - Helper --------------------------------------------------------------------------------------

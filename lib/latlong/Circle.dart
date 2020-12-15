@@ -27,8 +27,6 @@ class Circle {
       {final DistanceCalculator calculator = const Vincenty()})
       : _calculator = calculator;
 
-  // final Logger _logger = new Logger('latlong.Circle');
-
   final double radius;
   final LatLng center;
   final DistanceCalculator _calculator;
@@ -52,6 +50,4 @@ class Circle {
     final double dist = distance(center, point);
     return dist <= radius;
   }
-
-  //- private -----------------------------------------------------------------------------------
 }

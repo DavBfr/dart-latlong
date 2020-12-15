@@ -20,8 +20,6 @@
 part of latlong;
 
 class Vincenty implements DistanceCalculator {
-  // final Logger _logger = new Logger('latlong.Vincenty');
-
   const Vincenty();
 
   /// Calculates distance with Vincenty algorithm.
@@ -202,6 +200,4 @@ class Vincenty implements DistanceCalculator {
 
     return LatLng(radianToDeg(lat2), radianToDeg(lon2));
   }
-
-  //- private -----------------------------------------------------------------------------------
 }

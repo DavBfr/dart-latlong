@@ -50,8 +50,6 @@ class Distance implements DistanceCalculator {
         radius > 0, 'Radius must be greater than 0 but was $radius');
   }
 
-  // final Logger _logger = new Logger('latlong.Distance');
-
   final double _radius;
   final bool _roundResult;
   final DistanceCalculator _calculator;
@@ -126,8 +124,6 @@ class Distance implements DistanceCalculator {
   LatLng offset(
           final LatLng from, final num distanceInMeter, final num bearing) =>
       _calculator.offset(from, distanceInMeter.toDouble(), bearing.toDouble());
-
-  //- private -----------------------------------------------------------------------------------
 
   double _round(final double value) =>
       _roundResult ? value.round().toDouble() : value;

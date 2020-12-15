@@ -54,8 +54,6 @@ class Path<T extends LatLng> {
     Validate.notNull(coordinates);
   }
 
-  final Logger _logger = Logger('latlong.Path');
-
   /// Coordinates managed by this class
   final List<T> _coordinates;
 
@@ -117,7 +115,7 @@ class Path<T extends LatLng> {
         'Path distance must be at least ${stepDistance}mn (step distance) but was $baseLength');
 
     if (stepDistance > baseLength / 2) {
-      _logger.warning(
+      print(
           'Equalizing the path (L: $baseLength) with a key-frame distance of $stepDistance leads to'
           'weired results. Turn of path smooting.');
     }
@@ -289,8 +287,6 @@ class Path<T extends LatLng> {
   ///     final LatLng p1 = path[0]; // p1 == startPos
   ///
   T operator [](final int index) => _coordinates.elementAt(index);
-
-  //- private -----------------------------------------------------------------------------------
 
   /// 4 Points are necessary to create a [CatmullRomSpline2D]
   CatmullRomSpline2D<double> _createSpline(

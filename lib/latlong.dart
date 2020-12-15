@@ -42,22 +42,18 @@ library latlong;
 
 import 'dart:math' as math;
 
-import 'package:latlong/spline.dart';
-import 'package:logging/logging.dart';
-import 'package:validate/validate.dart';
 import 'package:intl/intl.dart';
+import 'package:latlong/spline.dart';
+import 'package:validate/validate.dart';
 
-part 'latlong/interfaces.dart';
-
-part 'latlong/calculator/Haversine.dart';
-part 'latlong/calculator/Vincenty.dart';
-
+part 'latlong/Circle.dart';
 part 'latlong/Distance.dart';
 part 'latlong/LatLng.dart';
 part 'latlong/LengthUnit.dart';
-
 part 'latlong/Path.dart';
-part 'latlong/Circle.dart';
+part 'latlong/calculator/Haversine.dart';
+part 'latlong/calculator/Vincenty.dart';
+part 'latlong/interfaces.dart';
 
 /// Equator radius in meter (WGS84 ellipsoid)
 const double EQUATOR_RADIUS = 6378137.0;

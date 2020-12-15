@@ -17,20 +17,10 @@
  * limitations under the License.
  */
 
-import 'package:test/test.dart';
 import 'package:latlong/latlong.dart';
-// import 'package:logging/logging.dart';
-
-// Browser
-// import "package:console_log_handler/console_log_handler.dart";
-
-// Commandline
-// import "package:console_log_handler/print_log_handler.dart";
+import 'package:test/test.dart';
 
 void main() {
-  // final Logger _logger = new Logger("test.LatLng");
-  // configLogging();
-
   group('A group of tests', () {
     setUp(() {});
 
@@ -43,26 +33,26 @@ void main() {
       expect(() => LatLng(0.0, -190.0), throwsArgumentError);
       expect(() => LatLng(0.0, 170.0), returnsNormally);
       expect(() => LatLng(0.0, 190.0), throwsArgumentError);
-    }); // end of 'Range' test
+    });
 
     test('> Rad', () {
       expect(LatLng(-80.0, 0.0).latitudeInRad, -1.3962634015954636);
       expect(LatLng(90.0, 0.0).latitudeInRad, 1.5707963267948966);
       expect(LatLng(0.0, 80.0).longitudeInRad, 1.3962634015954636);
       expect(LatLng(0.0, 90.0).longitudeInRad, 1.5707963267948966);
-    }); // end of 'Rad' test
+    });
 
     test('> toString', () {
       expect(LatLng(-80.0, 0.0).toString(),
           'LatLng(latitude:-80.0, longitude:0.0)');
       expect(LatLng(-80.123456, 0.0).toString(),
           'LatLng(latitude:-80.123456, longitude:0.0)');
-    }); // end of 'toString' test
+    });
 
     test('> equal', () {
       expect(LatLng(-80.0, 0.0), LatLng(-80.0, 0.0));
       expect(LatLng(-80.0, 0.0), isNot(LatLng(-80.1, 0.0)));
       expect(LatLng(-80.0, 0.0), isNot(LatLng(0.0, 80.0)));
-    }); // end of 'equal' test
+    });
   });
 }

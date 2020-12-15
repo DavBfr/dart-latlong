@@ -1,19 +1,8 @@
-//@TestOn("content-shell")
 import 'package:test/test.dart';
 
 import 'package:latlong/latlong.dart';
-// import 'package:logging/logging.dart';
-
-// Browser
-// import "package:console_log_handler/console_log_handler.dart";
-
-// Commandline
-// import "package:console_log_handler/print_log_handler.dart";
 
 void main() {
-  // final Logger _logger = new Logger("test.Circle");
-  // configLogging();
-
   final base = LatLng(0.0, 0.0);
 
   const distance = Distance();
@@ -39,7 +28,7 @@ void main() {
 
       final circle2 = Circle(LatLng(0.0, 0.0), 110573.0);
       expect(circle2.isPointInside(newPos), isFalse);
-    }); // end of 'isInside - ' test
+    });
 
     test('> isInside, bearing 0', () {
       const num bearing = 0;
@@ -49,7 +38,7 @@ void main() {
       }
       expect(
           circle.isPointInside(distance.offset(base, 1001, bearing)), isFalse);
-    }); // end of 'isInside, bearing 0' test
+    });
 
     test('> isInside, bearing 90', () {
       const num bearing = 90;
@@ -59,7 +48,7 @@ void main() {
       }
       expect(
           circle.isPointInside(distance.offset(base, 1001, bearing)), isFalse);
-    }); // end of 'isInside, bearing 0' test
+    });
 
     test('> isInside, bearing -90', () {
       const num bearing = -90;
@@ -69,7 +58,7 @@ void main() {
       }
       expect(
           circle.isPointInside(distance.offset(base, 1001, bearing)), isFalse);
-    }); // end of 'isInside, bearing 0' test
+    });
 
     test('> isInside, bearing 180', () {
       const num bearing = 180;
@@ -79,7 +68,7 @@ void main() {
       }
       expect(
           circle.isPointInside(distance.offset(base, 1001, bearing)), isFalse);
-    }); // end of 'isInside, bearing 0' test
+    });
 
     test('> isInside, bearing -180', () {
       const num bearing = -180;
@@ -89,9 +78,8 @@ void main() {
       }
       expect(
           circle.isPointInside(distance.offset(base, 1001, bearing)), isFalse);
-    }); // end of 'isInside, bearing 0' test
+    });
   });
-  // End of 'Circle with Haversine' group
 
   group('Circle with Haversine', () {
     test('> isInside, bearing 0', () {
@@ -109,7 +97,7 @@ void main() {
                 .isPointInside(distanceHaversine.offset(base, dist, bearing)),
             isFalse);
       }
-    }); // end of 'isInside, bearing 0' test
+    });
 
     test('> isInside, bearing 90', () {
       const num bearing = 90;
@@ -123,7 +111,7 @@ void main() {
           circleHaversine
               .isPointInside(distanceHaversine.offset(base, 1001, bearing)),
           isFalse);
-    }); // end of 'isInside, bearing 0' test
+    });
 
     test('> isInside, bearing -90', () {
       const num bearing = -90;
@@ -137,7 +125,7 @@ void main() {
           circleHaversine
               .isPointInside(distanceHaversine.offset(base, 1001, bearing)),
           isFalse);
-    }); // end of 'isInside, bearing 0' test
+    });
 
     test('> isInside, bearing 180', () {
       const num bearing = 180;
@@ -152,7 +140,7 @@ void main() {
           circleHaversine
               .isPointInside(distanceHaversine.offset(base, 1001, bearing)),
           isFalse);
-    }); // end of 'isInside, bearing 0' test
+    });
 
     test('> isInside, bearing -180', () {
       const num bearing = -180;
@@ -167,8 +155,6 @@ void main() {
           circleHaversine
               .isPointInside(distanceHaversine.offset(base, 1001, bearing)),
           isFalse);
-    }); // end of 'isInside, bearing 0' test
-  }); // End of 'Circle with Vincenty' group
+    });
+  });
 }
-
-// - Helper --------------------------------------------------------------------------------------

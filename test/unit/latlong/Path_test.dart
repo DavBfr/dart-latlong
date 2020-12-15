@@ -1,14 +1,5 @@
-//@TestOn("content-shell")
-import 'package:test/test.dart';
-
 import 'package:latlong/latlong.dart';
-// import 'package:logging/logging.dart';
-
-// Browser
-// import "package:console_log_handler/console_log_handler.dart";
-
-// Commandline
-// import "package:console_log_handler/print_log_handler.dart";
+import 'package:test/test.dart';
 
 final Map<String, LatLng> cities = <String, LatLng>{
   'berlin': LatLng(52.518611, 13.408056),
@@ -74,9 +65,6 @@ final List<LatLng> zigzag = <LatLng>[
 ];
 
 void main() {
-  // final Logger _logger = new Logger("test.Utils");
-  // configLogging();
-
   group('Equalize path', () {
     test(
         '> The total size of a path with 1000m lengt devided by 10sections must have the same'
@@ -95,7 +83,7 @@ void main() {
       // _exportForGoogleEarth(steps);
       expect(steps.distance, 1000);
       expect(steps.coordinates.length, 11);
-    }); // end of '10 intermediate steps in 1000m should have the same length' test
+    });
 
     test(
         '> 10 smoothd out steps in total have approximatly!!! the same lenght '
@@ -120,7 +108,7 @@ void main() {
         expect(distance(steps[index], steps[index + 1]),
             inInclusiveRange(46, 112));
       }
-    }); // end of '10 intermediate steps in 1000m should have the same length' test
+    });
 
     test('> Path with 3 sections', () {
       const distance = Distance();
@@ -138,7 +126,7 @@ void main() {
       //_exportForGoogleEarth(steps);
 
       expect(steps.nrOfCoordinates, 4);
-    }); // end of 'Path with 3 sections' test
+    });
 
     test(
         '> Reality Test - Westendorf, short, should 210m (same as Google Earth)',
@@ -154,7 +142,7 @@ void main() {
       expect(steps.nrOfCoordinates, 44);
 
       _exportForGoogleEarth(steps, show: false);
-    }); // end of 'Reality Test - Westendorf, short' test
+    });
 
     test(
         '> ZigZag, according to Google-Earth - 282m,'
@@ -180,21 +168,21 @@ void main() {
       // for(int index = 0;index < steps.nrOfCoordinates - 1;index++) {
       //    sumDist += distance(steps[index],steps[index + 1]);
       // }
-    }); // end of 'ZigZag' test
-  }); // End of 'Intermediate steps' group
+    });
+  });
 
   group('PathLength', () {
     test('> Distance of empty path should be 0', () {
       final path = Path();
 
       expect(path.distance, 0);
-    }); // end of 'Distance of empty path should be 0' test
+    });
 
     test('> Path length should be 3377m', () {
       final path = Path.from(route);
 
       expect(path.distance, 3377);
-    }); // end of 'Path length should be 3377m' test
+    });
 
     test('> Path lenght should be 3.377km', () {
       final path = Path.from(route);
@@ -203,8 +191,8 @@ void main() {
           round(LengthUnit.Meter.to(LengthUnit.Kilometer, path.distance),
               decimals: 3),
           3.377);
-    }); // end of 'Path length should be 3.377km' test
-  }); // End of 'PathLength' group
+    });
+  });
 
   group('Center', () {
     test(
@@ -214,8 +202,8 @@ void main() {
 
       expect(path.center.latitude, 54.743683);
       expect(path.center.longitude, 25.033239);
-    }); // end of 'Center' test
-  }); // End of 'Center' group
+    });
+  });
 
   group('Utils', () {
     setUp(() {});
@@ -231,12 +219,9 @@ void main() {
       expect(round(123.1234564, decimals: -3), 0);
       expect(round(523.1234564, decimals: -3), 1000);
       expect(round(423.1234564, decimals: -3), 0);
-    }); // end of 'Round' test
+    });
   });
-  // End of 'Utils' group
 }
-
-// - Helper --------------------------------------------------------------------------------------
 
 /// Print CSV-date on the cmdline
 void _exportForGoogleEarth(final Path steps, {final bool show = true}) {

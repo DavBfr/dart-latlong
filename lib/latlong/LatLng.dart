@@ -30,7 +30,6 @@ class LatLng {
     Validate.inclusiveBetween(-180.0, 180.0, _longitude,
         'Longitude must be between -180 and 180 degrees but was $_longitude');
   }
-  // final Logger _logger = new Logger('latlong.LatLng');
 
   double _latitude;
   double _longitude;
@@ -85,8 +84,6 @@ class LatLng {
   LatLng round({final int decimals = 6}) => LatLng(
       _round(latitude, decimals: decimals),
       _round(longitude, decimals: decimals));
-
-  //- private -----------------------------------------------------------------------------------
 
   /// No qualifier for top level functions in Dart. Had to copy this function
   double _round(final double value, {final int decimals = 6}) =>

@@ -41,8 +41,6 @@ class CatmullRomSpline<T extends num> extends CatmullRom<double> {
         _p2 = p2,
         _p3 = p2;
 
-  // final Logger _logger = new Logger('spline.CatmullRomSpline');
-
   final T _p0, _p1, _p2, _p3;
 
   @override

@@ -20,8 +20,6 @@
 part of latlong;
 
 class Haversine implements DistanceCalculator {
-  // final Logger _logger = new Logger('latlong.Haversine');
-
   const Haversine();
 
   /// Calculates distance with Haversine algorithm.
@@ -76,6 +74,4 @@ class Haversine implements DistanceCalculator {
 
     return LatLng(radianToDeg(lat2), radianToDeg(lng2));
   }
-
-  //- private -----------------------------------------------------------------------------------
 }
