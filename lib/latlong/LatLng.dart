@@ -1,13 +1,13 @@
 /*
  * Copyright (c) 2016, Michael Mitterer (office@mikemitterer.at),
  * IT-Consulting and Development Limited.
- * 
+ *
  * All Rights Reserved.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
@@ -57,8 +57,8 @@ class LatLng {
   double get longitudeInRad => degToRadian(_longitude);
 
   String toString() =>
-      'LatLng(latitude:${new NumberFormat("0.0#####").format(latitude)}, '
-      'longitude:${new NumberFormat("0.0#####").format(longitude)})';
+      'LatLng(latitude:${NumberFormat("0.0#####").format(latitude)}, '
+      'longitude:${NumberFormat("0.0#####").format(longitude)})';
 
   /// Converts lat/long values into sexagesimal
   ///
@@ -80,13 +80,13 @@ class LatLng {
       latitude == other.latitude &&
       longitude == other.longitude;
 
-  LatLng round({final int decimals: 6}) => new LatLng(
+  LatLng round({final int decimals = 6}) => LatLng(
       _round(latitude, decimals: decimals),
       _round(longitude, decimals: decimals));
 
   //- private -----------------------------------------------------------------------------------
 
   /// No qualifier for top level functions in Dart. Had to copy this function
-  double _round(final double value, {final int decimals: 6}) =>
+  double _round(final double value, {final int decimals = 6}) =>
       (value * math.pow(10, decimals)).round() / math.pow(10, decimals);
 }

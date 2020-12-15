@@ -5,6 +5,7 @@ Lightweight library for common latitude and longitude calculation
 ## [Unreleased](http://github.com/mikemitterer/dart-latlong/compare/v0.6...HEAD)
 
 - Fixed longitude out of bounds message
+- Fix code style
 
 ### Refactor
 
