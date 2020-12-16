@@ -17,7 +17,12 @@
  * limitations under the License.
  */
 
-part of latlong;
+import 'package:validate/validate.dart';
+
+import 'calculator/vincenty.dart';
+import 'distance.dart';
+import 'interfaces.dart';
+import 'lat_lng.dart';
 
 /// Circle-base GEO algorithms.
 ///

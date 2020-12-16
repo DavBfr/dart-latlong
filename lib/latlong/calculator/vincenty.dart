@@ -17,7 +17,11 @@
  * limitations under the License.
  */
 
-part of latlong;
+import 'dart:math' as math;
+
+import '../../latlong.dart';
+import '../interfaces.dart';
+import '../lat_lng.dart';
 
 class Vincenty implements DistanceCalculator {
   const Vincenty();

@@ -6,6 +6,7 @@ Lightweight library for common latitude and longitude calculation
 
 - Fixed longitude out of bounds message
 - Fix code style
+- Use standart export library style
 
 ### Refactor
 

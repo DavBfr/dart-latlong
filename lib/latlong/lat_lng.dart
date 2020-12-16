@@ -17,7 +17,12 @@
  * limitations under the License.
  */
 
-part of latlong;
+import 'dart:math' as math;
+
+import 'package:intl/intl.dart';
+import 'package:validate/validate.dart';
+
+import '../latlong.dart';
 
 /// Coordinates in Degrees
 ///

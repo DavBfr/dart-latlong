@@ -17,7 +17,16 @@
  * limitations under the License.
  */
 
-part of latlong;
+import 'dart:math' as math;
+
+import 'package:validate/validate.dart';
+
+import '../latlong.dart';
+import 'calculator/haversine.dart';
+import 'calculator/vincenty.dart';
+import 'interfaces.dart';
+import 'lat_lng.dart';
+import 'length_unit.dart';
 
 /// Calculates the distance between points.
 ///

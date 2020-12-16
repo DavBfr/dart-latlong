@@ -17,7 +17,14 @@
  * limitations under the License.
  */
 
-part of latlong;
+import 'dart:math' as math;
+
+import 'package:validate/validate.dart';
+
+import '../latlong.dart';
+import '../spline/catmull_rom_spline.dart';
+import 'distance.dart';
+import 'lat_lng.dart';
 
 /// Necessary for creating new instances T extends LatLng (Path<T extends LatLng>)
 ///

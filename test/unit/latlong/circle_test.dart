@@ -1,6 +1,5 @@
-import 'package:test/test.dart';
-
 import 'package:latlong/latlong.dart';
+import 'package:test/test.dart';
 
 void main() {
   final base = LatLng(0.0, 0.0);

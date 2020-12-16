@@ -17,8 +17,6 @@
  * limitations under the License.
  */
 
-part of latlong;
-
 class LengthUnit {
   const LengthUnit(this.scaleFactor);
 

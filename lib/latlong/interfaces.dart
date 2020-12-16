@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-part of latlong;
+import 'lat_lng.dart';
 
 abstract class DistanceCalculator {
   num distance(final LatLng p1, final LatLng p2);

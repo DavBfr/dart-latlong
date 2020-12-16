@@ -38,22 +38,17 @@
 ///
 /// ![Map](http://www.isobudgets.com/wp-content/uploads/2014/03/latitude-longitude.jpg)
 ///
-library latlong;
-
 import 'dart:math' as math;
 
 import 'package:intl/intl.dart';
-import 'package:latlong/spline.dart';
-import 'package:validate/validate.dart';
 
-part 'latlong/Circle.dart';
-part 'latlong/Distance.dart';
-part 'latlong/LatLng.dart';
-part 'latlong/LengthUnit.dart';
-part 'latlong/Path.dart';
-part 'latlong/calculator/Haversine.dart';
-part 'latlong/calculator/Vincenty.dart';
-part 'latlong/interfaces.dart';
+export 'latlong/calculator/haversine.dart';
+export 'latlong/calculator/vincenty.dart';
+export 'latlong/circle.dart';
+export 'latlong/distance.dart';
+export 'latlong/lat_lng.dart';
+export 'latlong/length_unit.dart';
+export 'latlong/path.dart';
 
 /// Equator radius in meter (WGS84 ellipsoid)
 const double EQUATOR_RADIUS = 6378137.0;

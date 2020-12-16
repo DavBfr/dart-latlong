@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-part of spline;
+import 'package:validate/validate.dart';
 
 class Point2D<T extends num> {
   Point2D(this.x, this.y);
