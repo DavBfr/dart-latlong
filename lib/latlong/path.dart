@@ -19,8 +19,6 @@
 
 import 'dart:math' as math;
 
-import 'package:validate/validate.dart';
-
 import '../latlong.dart';
 import '../spline/catmull_rom_spline.dart';
 import 'distance.dart';
@@ -50,16 +48,16 @@ LatLng _defaultLatLngFactory(final double latitude, final double longitude) =>
 ///     final Path<Location> path = new Path<Location>(factory: locationFactory);
 ///
 class Path<T extends LatLng> {
-  Path({final LatLngFactory factory = _defaultLatLngFactory})
-      : _coordinates = <T>[],
+  Path({
+    final LatLngFactory factory = _defaultLatLngFactory,
+  })  : _coordinates = <T>[],
         _latLngFactory = factory;
 
-  Path.from(final Iterable<T> coordinates,
-      {final LatLngFactory factory = _defaultLatLngFactory})
-      : _coordinates = List<T>.from(coordinates),
-        _latLngFactory = factory {
-    Validate.notNull(coordinates);
-  }
+  Path.from(
+    final Iterable<T> coordinates, {
+    final LatLngFactory factory = _defaultLatLngFactory,
+  })  : _coordinates = List<T>.from(coordinates),
+        _latLngFactory = factory;
 
   /// Coordinates managed by this class
   final List<T> _coordinates;
@@ -76,13 +74,11 @@ class Path<T extends LatLng> {
 
   /// Add new [T] coordinate to path
   void add(final T value) {
-    Validate.notNull(value);
     return _coordinates.add(value);
   }
 
   /// Add all coordinates from [List<T>] to path
   void addAll(final List<T> values) {
-    Validate.notNull(values);
     return _coordinates.addAll(values);
   }
 
@@ -102,23 +98,21 @@ class Path<T extends LatLng> {
   ///
   /// If [smoothPath] is turned on than the minimum of 3 coordinates is required otherwise
   /// we need two
-  Path equalize(final num distanceInMeterPerTime,
+  Path equalize(final double distanceInMeterPerTime,
       {final bool smoothPath = true}) {
-    Validate.isTrue(
-        distanceInMeterPerTime > 0, 'Distance must be greater than 0');
-    Validate.isTrue(
+    assert(distanceInMeterPerTime > 0, 'Distance must be greater than 0');
+    assert(
         (smoothPath && _coordinates.length >= 3) ||
             (!smoothPath && _coordinates.length >= 2),
         'At least ${smoothPath ? 3 : 2} coordinates are needed to create the steps in between');
 
     // If we "smooth" the path every second step becomes a spline - so every other step
     // becomes a "Keyframe". A step on the given path
-    final double stepDistance = smoothPath
-        ? distanceInMeterPerTime * 2.0
-        : distanceInMeterPerTime.toDouble();
+    final stepDistance =
+        smoothPath ? distanceInMeterPerTime * 2 : distanceInMeterPerTime;
 
-    final double baseLength = distance;
-    Validate.isTrue(baseLength >= stepDistance,
+    final baseLength = distance;
+    assert(baseLength >= stepDistance,
         'Path distance must be at least ${stepDistance}mn (step distance) but was $baseLength');
 
     if (stepDistance > baseLength / 2) {
@@ -142,7 +136,7 @@ class Path<T extends LatLng> {
     var baseStep = tempCoordinates.first;
 
     for (var index = 0; index < coordinates.length - 1; index++) {
-      final double distance =
+      final distance =
           _distance(tempCoordinates[index], tempCoordinates[index + 1]);
 
       // Remember the direction
@@ -174,7 +168,7 @@ class Path<T extends LatLng> {
 
           if (smoothPath) {
             // Now - split it
-            CatmullRomSpline2D<double> spline;
+            CatmullRomSpline2D spline;
 
             if (path.nrOfCoordinates == 3) {
               spline = _createSpline(path[0], path[0], path[1], path[2]);
@@ -238,7 +232,7 @@ class Path<T extends LatLng> {
   ///     final Path path = new Path.from(route);
   ///     print(path.length);
   ///
-  num get distance {
+  double get distance {
     final tempCoordinates = List<T>.from(_coordinates);
     var length = 0.0;
 
@@ -252,7 +246,7 @@ class Path<T extends LatLng> {
   ///
   /// The function rounds the result to 6 decimals
   LatLng get center {
-    Validate.notEmpty(coordinates, 'Coordinates must not be empty!');
+    assert(coordinates.isNotEmpty, 'Coordinates must not be empty!');
 
     var X = 0.0;
     var Y = 0.0;
@@ -296,13 +290,12 @@ class Path<T extends LatLng> {
   T operator [](final int index) => _coordinates.elementAt(index);
 
   /// 4 Points are necessary to create a [CatmullRomSpline2D]
-  CatmullRomSpline2D<double> _createSpline(
-      final LatLng p0, final LatLng p1, final LatLng p2, final LatLng p3) {
-    Validate.notNull(p0);
-    Validate.notNull(p1);
-    Validate.notNull(p2);
-    Validate.notNull(p3);
-
+  CatmullRomSpline2D _createSpline(
+    final LatLng p0,
+    final LatLng p1,
+    final LatLng p2,
+    final LatLng p3,
+  ) {
     return CatmullRomSpline2D(
         Point2D(p0.latitude, p0.longitude),
         Point2D(p1.latitude, p1.longitude),

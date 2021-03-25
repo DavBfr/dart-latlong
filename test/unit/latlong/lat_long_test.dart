@@ -26,13 +26,13 @@ void main() {
 
     test('> Range', () {
       expect(() => LatLng(-80.0, 0.0), returnsNormally);
-      expect(() => LatLng(-100.0, 0.0), throwsArgumentError);
+      expect(() => LatLng(-100.0, 0.0), throwsA(isA<AssertionError>()));
       expect(() => LatLng(80.0, 0.0), returnsNormally);
-      expect(() => LatLng(100.0, 0.0), throwsArgumentError);
+      expect(() => LatLng(100.0, 0.0), throwsA(isA<AssertionError>()));
       expect(() => LatLng(0.0, -170.0), returnsNormally);
-      expect(() => LatLng(0.0, -190.0), throwsArgumentError);
+      expect(() => LatLng(0.0, -190.0), throwsA(isA<AssertionError>()));
       expect(() => LatLng(0.0, 170.0), returnsNormally);
-      expect(() => LatLng(0.0, 190.0), throwsArgumentError);
+      expect(() => LatLng(0.0, 190.0), throwsA(isA<AssertionError>()));
     });
 
     test('> Rad', () {

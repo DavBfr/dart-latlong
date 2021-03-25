@@ -7,7 +7,7 @@ void main() {
 
     test('> Radius', () {
       expect(const Distance().radius, EARTH_RADIUS);
-      expect(Distance.withRadius(100.0).radius, 100.0);
+      expect(const Distance.withRadius(100.0).radius, 100.0);
     });
 
     test('> Distance to the same point is 0', () {
@@ -30,12 +30,12 @@ void main() {
           equals(10002));
 
       // rounds to 10002
-      expect(distance.as(LengthUnit.Kilometer, p1, p2), equals(10002));
-      expect(distance.as(LengthUnit.Meter, p1, p2), equals(10001966));
+      expect(distance.as(LengthUnit.Kilometer, p1, p2).round(), equals(10002));
+      expect(distance.as(LengthUnit.Meter, p1, p2).round(), equals(10001966));
     });
 
     test('> Distance between 0 and 90.0 is 10001.96572931165 km ', () {
-      const distance = Distance(roundResult: false);
+      const distance = Distance();
       final p1 = LatLng(0.0, 0.0);
       final p2 = LatLng(90.0, 0.0);
 
@@ -48,7 +48,7 @@ void main() {
       final p1 = LatLng(0.0, -180.0);
       final p2 = LatLng(0.0, 180.0);
 
-      expect(distance(p1, p2), 0);
+      expect(distance(p1, p2).round(), 0);
     });
 
     group('Vincenty', () {
@@ -57,12 +57,19 @@ void main() {
 
         expect(
             distance(
-                LatLng(52.518611, 13.408056), LatLng(51.519475, 7.46694444)),
+              LatLng(52.518611, 13.408056),
+              LatLng(51.519475, 7.46694444),
+            ).round(),
             422592);
 
         expect(
-            distance.as(LengthUnit.Kilometer, LatLng(52.518611, 13.408056),
-                LatLng(51.519475, 7.46694444)),
+            distance
+                .as(
+                  LengthUnit.Kilometer,
+                  LatLng(52.518611, 13.408056),
+                  LatLng(51.519475, 7.46694444),
+                )
+                .round(),
             423);
       });
     });
@@ -73,7 +80,9 @@ void main() {
 
         expect(
             distance(
-                LatLng(52.518611, 13.408056), LatLng(51.519475, 7.46694444)),
+              LatLng(52.518611, 13.408056),
+              LatLng(51.519475, 7.46694444),
+            ).round(),
             421786.0);
       });
     });
@@ -122,11 +131,11 @@ void main() {
         () {
       const distance = Distance();
 
-      final num distanceInMeter = (EARTH_RADIUS * PI / 2).round();
+      final distanceInMeter = (EARTH_RADIUS * PI / 2).roundToDouble();
       //print("Dist $distanceInMeter");
 
       final p1 = LatLng(0.0, 0.0);
-      final p2 = distance.offset(p1, distanceInMeter.round(), 0);
+      final p2 = distance.offset(p1, distanceInMeter, 0);
 
       //print(p2);
       //print("${decimal2sexagesimal(p2.latitude)} / ${decimal2sexagesimal(p2.longitude)}");
@@ -138,7 +147,7 @@ void main() {
     test('offset from 0,0 with bearing 180 and distance ~ 5.000 km is -45,0',
         () {
       const distance = Distance();
-      final num distanceInMeter = (EARTH_RADIUS * PI / 4).round();
+      final distanceInMeter = (EARTH_RADIUS * PI / 4).roundToDouble();
 
       final p1 = LatLng(0.0, 0.0);
       final p2 = distance.offset(p1, distanceInMeter, 180);
@@ -153,7 +162,7 @@ void main() {
     test('offset from 0,0 with bearing 180 and distance ~ 10.000 km is -90,180',
         () {
       const distance = Distance();
-      final num distanceInMeter = (EARTH_RADIUS * PI / 2).round();
+      final distanceInMeter = (EARTH_RADIUS * PI / 2).roundToDouble();
 
       final p1 = LatLng(0.0, 0.0);
       final p2 = distance.offset(p1, distanceInMeter, 180);
@@ -164,7 +173,7 @@ void main() {
 
     test('offset from 0,0 with bearing 90 and distance ~ 5.000 km is 0,45', () {
       const distance = Distance();
-      final num distanceInMeter = (EARTH_RADIUS * PI / 4).round();
+      final distanceInMeter = (EARTH_RADIUS * PI / 4).roundToDouble();
 
       final p1 = LatLng(0.0, 0.0);
       final p2 = distance.offset(p1, distanceInMeter, 90);

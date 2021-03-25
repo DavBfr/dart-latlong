@@ -20,7 +20,6 @@
 import 'dart:math' as math;
 
 import 'package:intl/intl.dart';
-import 'package:validate/validate.dart';
 
 import '../latlong.dart';
 
@@ -29,18 +28,17 @@ import '../latlong.dart';
 ///     final Location location = new Location(10.000002,12.00001);
 ///
 class LatLng {
-  LatLng(this._latitude, this._longitude) {
-    Validate.inclusiveBetween(-90.0, 90.0, _latitude,
-        'Latitude must be between -90 and 90 degrees but was $_latitude');
-    Validate.inclusiveBetween(-180.0, 180.0, _longitude,
-        'Longitude must be between -180 and 180 degrees but was $_longitude');
-  }
+  LatLng(this._latitude, this._longitude)
+      : assert(_latitude >= -90.0 && _latitude <= 90.0,
+            'Latitude must be between -90 and 90 degrees but was $_latitude'),
+        assert(_longitude >= -180.0 && _longitude <= 180.0,
+            'Longitude must be between -180 and 180 degrees but was $_longitude');
 
   double _latitude;
   double _longitude;
 
   set latitude(final double value) {
-    Validate.inclusiveBetween(-90.0, 90.0, _latitude,
+    assert(_latitude >= -90.0 && _latitude <= 90.0,
         'Latitude must be between -90 and 90 degrees but was $_latitude');
     _latitude = value;
   }
@@ -48,7 +46,7 @@ class LatLng {
   double get latitude => _latitude;
 
   set longitude(final double value) {
-    Validate.inclusiveBetween(-180.0, 180.0, _longitude,
+    assert(_longitude >= -180.0 && _longitude <= 180.0,
         'Longitude must be between -180 and 180 degrees but was $_longitude');
     _longitude = value;
   }

@@ -28,7 +28,7 @@ class LengthUnit {
 
   final double scaleFactor;
 
-  double to(final LengthUnit unit, final num value) {
+  double to(final LengthUnit unit, final double value) {
     if (unit.scaleFactor == scaleFactor) {
       return value;
     }

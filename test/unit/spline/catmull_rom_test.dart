@@ -53,7 +53,7 @@ Future<void> main() async {
       final spline =
           CatmullRomSpline2D.noEndpoints(Point2D(1, 1), Point2D(2, 2));
 
-      expect(() => spline.position(3.0).x, throwsArgumentError);
+      expect(() => spline.position(3.0).x, throwsA(isA<AssertionError>()));
     });
   });
 }

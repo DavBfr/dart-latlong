@@ -17,8 +17,6 @@
  * limitations under the License.
  */
 
-import 'package:validate/validate.dart';
-
 import 'calculator/vincenty.dart';
 import 'distance.dart';
 import 'interfaces.dart';
@@ -48,11 +46,9 @@ class Circle {
   ///     expect(circle2.isPointInside(newPos),isFalse);
   ///
   bool isPointInside(final LatLng point) {
-    Validate.notNull(point);
-
     final distance = Distance(calculator: _calculator);
 
-    final double dist = distance(center, point);
+    final dist = distance(center, point);
     return dist <= radius;
   }
 }

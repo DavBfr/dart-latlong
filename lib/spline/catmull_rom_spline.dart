@@ -17,36 +17,34 @@
  * limitations under the License.
  */
 
-import 'package:validate/validate.dart';
-
-class Point2D<T extends num> {
+class Point2D {
   Point2D(this.x, this.y);
 
-  final T x;
-  final T y;
+  final double x;
+  final double y;
 }
 
 abstract class CatmullRom<R> {
   const CatmullRom();
 
   R position(final double distance);
-  R percentage(final num percent) => position(percent / 100);
+  R percentage(final double percent) => position(percent / 100);
 }
 
-class CatmullRomSpline<T extends num> extends CatmullRom<double> {
+class CatmullRomSpline extends CatmullRom<double> {
   const CatmullRomSpline(this._p0, this._p1, this._p2, this._p3);
-  const CatmullRomSpline.noEndpoints(final T p1, final T p2)
+  const CatmullRomSpline.noEndpoints(final double p1, final double p2)
       : _p0 = p1,
         _p1 = p1,
         _p2 = p2,
         _p3 = p2;
 
-  final T _p0, _p1, _p2, _p3;
+  final double _p0, _p1, _p2, _p3;
 
   @override
   double position(final double distance) {
-    Validate.inclusiveBetween(
-        0, 1, distance, 'Distance must be beteen 0 and 1 but was $distance');
+    assert(distance >= 0 && distance <= 1,
+        'Distance must be beteen 0 and 1 but was $distance');
 
     return 0.5 *
         ((2 * _p1) +
@@ -56,35 +54,28 @@ class CatmullRomSpline<T extends num> extends CatmullRom<double> {
   }
 }
 
-class CatmullRomSpline2D<T extends num> extends CatmullRom<Point2D<double>> {
-  CatmullRomSpline2D(this._p0, this._p1, this._p2, this._p3) {
-    Validate.notNull(_p0);
-    Validate.notNull(_p1);
-    Validate.notNull(_p2);
-    Validate.notNull(_p3);
-  }
+class CatmullRomSpline2D extends CatmullRom<Point2D> {
+  const CatmullRomSpline2D(this._p0, this._p1, this._p2, this._p3);
 
-  CatmullRomSpline2D.noEndpoints(final Point2D<T> p0, final Point2D<T> p1)
+  const CatmullRomSpline2D.noEndpoints(final Point2D p0, final Point2D p1)
       : _p0 = p0,
         _p1 = p0,
         _p2 = p1,
-        _p3 = p1 {
-    Validate.notNull(p0);
-    Validate.notNull(p1);
-  }
+        _p3 = p1;
 
-  final Point2D<T> _p0;
-  final Point2D<T> _p1;
-  final Point2D<T> _p2;
-  final Point2D<T> _p3;
+  final Point2D _p0;
+  final Point2D _p1;
+  final Point2D _p2;
+  final Point2D _p3;
 
   @override
-  Point2D<double> position(final double distance) {
-    Validate.inclusiveBetween(
-        0, 1, distance, 'Distance must be beteen 0 and 1 but was $distance');
+  Point2D position(final double distance) {
+    assert(distance >= 0 && distance <= 1,
+        'Distance must be beteen 0 and 1 but was $distance');
 
-    return Point2D<double>(
-        CatmullRomSpline<T>(_p0.x, _p1.x, _p2.x, _p3.x).position(distance),
-        CatmullRomSpline<T>(_p0.y, _p1.y, _p2.y, _p3.y).position(distance));
+    return Point2D(
+      CatmullRomSpline(_p0.x, _p1.x, _p2.x, _p3.x).position(distance),
+      CatmullRomSpline(_p0.y, _p1.y, _p2.y, _p3.y).position(distance),
+    );
   }
 }

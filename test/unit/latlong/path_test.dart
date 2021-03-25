@@ -73,14 +73,14 @@ void main() {
       final startPos = LatLng(0.0, 0.0);
       final endPos = distance.offset(startPos, 1000, 0);
 
-      expect(distance(startPos, endPos), 1000);
+      expect(distance(startPos, endPos).round(), 1000);
 
       final path = Path.from(<LatLng>[startPos, endPos]);
-      expect(path.distance, 1000);
+      expect(path.distance.round(), 1000);
 
       final steps = path.equalize(100, smoothPath: false);
 
-      // _exportForGoogleEarth(steps);
+      _exportForGoogleEarth(steps);
       expect(steps.distance, 1000);
       expect(steps.coordinates.length, 11);
     });
@@ -117,7 +117,7 @@ void main() {
       final pos2 = distance.offset(pos1, 15, 0);
       final pos3 = distance.offset(pos2, 5, 0);
 
-      expect(distance(startPos, pos3), 70);
+      expect(distance(startPos, pos3).round(), 70);
 
       final path = Path.from(<LatLng>[startPos, pos1, pos2, pos3]);
       expect(path.distance, 70);
@@ -132,11 +132,11 @@ void main() {
         '> Reality Test - Westendorf, short, should 210m (same as Google Earth)',
         () {
       final path = Path.from(westendorf);
-      expect(path.distance, 210);
+      expect(path.distance.round(), 210);
 
       // first point to last point!
       const distance = Distance();
-      expect(distance(westendorf.first, westendorf.last), 209);
+      expect(distance(westendorf.first, westendorf.last).round(), 209);
 
       final steps = path.equalize(5);
       expect(steps.nrOfCoordinates, 44);
@@ -148,11 +148,11 @@ void main() {
         '> ZigZag, according to Google-Earth - 282m,'
         'first to last point 190m (acc. movable-type.co.uk (Haversine)', () {
       final path = Path.from(zigzag);
-      expect(path.distance, 282);
+      expect(path.distance.round(), 282);
 
       // first point to last point!
       const distance = Distance();
-      expect(distance(zigzag.first, zigzag.last), 190);
+      expect(distance(zigzag.first, zigzag.last).round(), 190);
 
       final steps = path.equalize(8, smoothPath: true);
 
@@ -181,7 +181,7 @@ void main() {
     test('> Path length should be 3377m', () {
       final path = Path.from(route);
 
-      expect(path.distance, 3377);
+      expect(path.distance.round(), 3377);
     });
 
     test('> Path lenght should be 3.377km', () {
@@ -198,7 +198,7 @@ void main() {
     test(
         '> Center between Berlin and Moscow should be near Minsk '
         '(54.743683,25.033239)', () {
-      final path = Path.from([cities['berlin'], cities['moscow']]);
+      final path = Path.from([cities['berlin']!, cities['moscow']!]);
 
       expect(path.center.latitude, 54.743683);
       expect(path.center.longitude, 25.033239);

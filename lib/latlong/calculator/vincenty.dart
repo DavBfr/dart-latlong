@@ -116,12 +116,12 @@ class Vincenty implements DistanceCalculator {
   /// More on [Wikipedia](https://en.wikipedia.org/wiki/Vincenty%27s_formulae)
   @override
   LatLng offset(
-      final LatLng from, final double distanceInMeter, final double bearing) {
+      final LatLng? from, final double distanceInMeter, final double bearing) {
     const equatorialRadius = EQUATOR_RADIUS;
     const polarRadius = POLAR_RADIUS;
     const flattening = FLATTENING; // WGS-84 ellipsoid params
 
-    final latitude = from.latitudeInRad;
+    final latitude = from!.latitudeInRad;
     final longitude = from.longitudeInRad;
 
     final alpha1 = degToRadian(bearing);

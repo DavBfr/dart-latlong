@@ -19,8 +19,6 @@
 
 import 'dart:math' as math;
 
-import 'package:validate/validate.dart';
-
 import '../latlong.dart';
 import 'calculator/haversine.dart';
 import 'calculator/vincenty.dart';
@@ -42,25 +40,19 @@ import 'length_unit.dart';
 ///      final int meter = distance(new LatLng(52.518611,13.408056),new LatLng(51.519475,7.46694444));
 ///
 class Distance implements DistanceCalculator {
-  const Distance(
-      {final bool roundResult = true,
-      final DistanceCalculator calculator = const Vincenty()})
+  const Distance({final DistanceCalculator calculator = const Vincenty()})
       : _radius = EARTH_RADIUS,
-        _roundResult = roundResult,
         _calculator = calculator;
 
-  Distance.withRadius(final double radius,
-      {final bool roundResult = true,
-      final DistanceCalculator calculator = const Vincenty()})
-      : _radius = radius,
-        _roundResult = roundResult,
-        _calculator = calculator {
-    Validate.isTrue(
-        radius > 0, 'Radius must be greater than 0 but was $radius');
-  }
+  const Distance.withRadius(
+    final double radius, {
+    final DistanceCalculator calculator = const Vincenty(),
+  })  : _radius = radius,
+        _calculator = calculator,
+        assert(radius > 0, 'Radius must be greater than 0 but was $radius');
 
   final double _radius;
-  final bool _roundResult;
+
   final DistanceCalculator _calculator;
 
   double get radius => _radius;
@@ -73,7 +65,7 @@ class Distance implements DistanceCalculator {
   DistanceCalculator get calculator => _calculator;
 
   /// Shortcut for [distance]
-  num call(final LatLng p1, final LatLng p2) {
+  double call(final LatLng p1, final LatLng p2) {
     return distance(p1, p2);
   }
 
@@ -82,17 +74,17 @@ class Distance implements DistanceCalculator {
   ///     final int km = distance.as(LengthUnit.Kilometer,
   ///         new LatLng(52.518611,13.408056),new LatLng(51.519475,7.46694444));
   ///
-  num as(final LengthUnit unit, final LatLng p1, final LatLng p2) {
-    final double dist = _calculator.distance(p1, p2);
-    return _round(LengthUnit.Meter.to(unit, dist));
+  double as(final LengthUnit unit, final LatLng p1, final LatLng p2) {
+    final dist = _calculator.distance(p1, p2);
+    return LengthUnit.Meter.to(unit, dist);
   }
 
   /// Computes the distance between two points.
   ///
   /// The function uses the [DistanceAlgorithm] specified in the CTOR
   @override
-  num distance(final LatLng p1, final LatLng p2) =>
-      _round(_calculator.distance(p1, p2));
+  double distance(final LatLng p1, final LatLng p2) =>
+      _calculator.distance(p1, p2);
 
   /// Returns the great circle bearing (direction) in degrees to the next point ([p2])
   ///
@@ -123,7 +115,7 @@ class Distance implements DistanceCalculator {
   ///
   ///     final Distance distance = const Distance();
   ///
-  ///     final num distanceInMeter = (EARTH_RADIUS * math.PI / 4).round();
+  ///     final double distanceInMeter = (EARTH_RADIUS * math.PI / 4).round();
   ///
   ///     final p1 = new LatLng(0.0, 0.0);
   ///     final p2 = distance.offset(p1, distanceInMeter, 180);
@@ -131,41 +123,33 @@ class Distance implements DistanceCalculator {
   /// Bearing: Left - 270°, right - 90°, up - 0°, down - 180°
   @override
   LatLng offset(
-          final LatLng from, final num distanceInMeter, final num bearing) =>
-      _calculator.offset(from, distanceInMeter.toDouble(), bearing.toDouble());
-
-  double _round(final double value) =>
-      _roundResult ? value.round().toDouble() : value;
+    final LatLng from,
+    final double distanceInMeter,
+    final double bearing,
+  ) =>
+      _calculator.offset(from, distanceInMeter, bearing);
 }
 
 /// Shortcut for
 ///     final Distance distance = const Distance(calculator: const Vincenty());
 ///
 class DistanceVincenty extends Distance {
-  const DistanceVincenty({final bool roundResult = true})
-      : super(roundResult: roundResult, calculator: const Vincenty());
+  const DistanceVincenty() : super(calculator: const Vincenty());
 
-  DistanceVincenty.withRadius(final double radius,
-      {final bool roundResult = true})
-      : super.withRadius(radius,
-            roundResult: roundResult, calculator: const Vincenty()) {
-    Validate.isTrue(
-        radius > 0, 'Radius must be greater than 0 but was $radius');
-  }
+  const DistanceVincenty.withRadius(
+    final double radius,
+  )   : assert(radius > 0, 'Radius must be greater than 0 but was $radius'),
+        super.withRadius(radius, calculator: const Vincenty());
 }
 
 /// Shortcut for
 ///     final Distance distance = const Distance(calculator: const Haversine());
 ///
 class DistanceHaversine extends Distance {
-  const DistanceHaversine({final bool roundResult = true})
-      : super(roundResult: roundResult, calculator: const Haversine());
+  const DistanceHaversine() : super(calculator: const Haversine());
 
-  DistanceHaversine.withRadius(final double radius,
-      {final bool roundResult = true})
-      : super.withRadius(radius,
-            roundResult: roundResult, calculator: const Haversine()) {
-    Validate.isTrue(
-        radius > 0, 'Radius must be greater than 0 but was $radius');
-  }
+  const DistanceHaversine.withRadius(
+    final double radius,
+  )   : assert(radius > 0, 'Radius must be greater than 0 but was $radius'),
+        super.withRadius(radius, calculator: const Haversine());
 }

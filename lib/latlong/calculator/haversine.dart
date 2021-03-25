@@ -19,8 +19,6 @@
 
 import 'dart:math' as math;
 
-import 'package:validate/validate.dart';
-
 import '../../latlong.dart';
 import '../interfaces.dart';
 import '../lat_lng.dart';
@@ -56,22 +54,22 @@ class Haversine implements DistanceCalculator {
   ///
   ///     final Haversine distance = const Haversine();
   ///
-  ///     final num distanceInMeter = (EARTH_RADIUS * math.PI / 4).round();
+  ///     final double distanceInMeter = (EARTH_RADIUS * math.PI / 4).round();
   ///
   ///     final p1 = new LatLng(0.0, 0.0);
   ///     final p2 = distance.offset(p1, distanceInMeter, 180);
   ///
   @override
   LatLng offset(
-      final LatLng from, final double distanceInMeter, final double bearing) {
-    Validate.inclusiveBetween(-180.0, 180.0, bearing,
+      final LatLng? from, final double distanceInMeter, final double bearing) {
+    assert(bearing >= -180.0 && bearing <= 180.0,
         'Angle must be between -180 and 180 degrees but was $bearing');
 
-    final h = degToRadian(bearing.toDouble());
+    final h = degToRadian(bearing);
 
     final a = distanceInMeter / EQUATOR_RADIUS;
 
-    final lat2 = math.asin(math.sin(from.latitudeInRad) * math.cos(a) +
+    final lat2 = math.asin(math.sin(from!.latitudeInRad) * math.cos(a) +
         math.cos(from.latitudeInRad) * math.sin(a) * math.cos(h));
 
     final lng2 = from.longitudeInRad +
