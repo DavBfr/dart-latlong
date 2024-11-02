@@ -21,7 +21,6 @@ import 'dart:math' as math;
 
 import '../../latlong.dart';
 import '../interfaces.dart';
-import '../lat_lng.dart';
 
 class Vincenty implements DistanceCalculator {
   const Vincenty();
@@ -32,9 +31,9 @@ class Vincenty implements DistanceCalculator {
   /// More on [Wikipedia](https://en.wikipedia.org/wiki/Vincenty%27s_formulae)
   @override
   double distance(final LatLng p1, final LatLng p2) {
-    const a = EQUATOR_RADIUS,
-        b = POLAR_RADIUS,
-        f = FLATTENING; // WGS-84 ellipsoid params
+    const a = equatorialRadius,
+        b = polarRadius,
+        f = flattening; // WGS-84 ellipsoid params
 
     final L = p2.longitudeInRad - p1.longitudeInRad;
     final u1 = math.atan((1 - f) * math.tan(p1.latitudeInRad));
@@ -117,10 +116,6 @@ class Vincenty implements DistanceCalculator {
   @override
   LatLng offset(
       final LatLng? from, final double distanceInMeter, final double bearing) {
-    const equatorialRadius = EQUATOR_RADIUS;
-    const polarRadius = POLAR_RADIUS;
-    const flattening = FLATTENING; // WGS-84 ellipsoid params
-
     final latitude = from!.latitudeInRad;
     final longitude = from.longitudeInRad;
 
@@ -143,7 +138,7 @@ class Vincenty implements DistanceCalculator {
     final b = dfUSq / 1024 * (256 + dfUSq * (-128 + dfUSq * (74 - 47 * dfUSq)));
 
     var sigma = distanceInMeter / (polarRadius * a);
-    var sigmaP = 2 * PI;
+    var sigmaP = 2 * pi;
 
     var sinSigma = 0.0;
     var cosSigma = 0.0;
@@ -195,11 +190,11 @@ class Vincenty implements DistanceCalculator {
     var lon2 = longitude + l;
     // print("LA ${radianToDeg(lat2)}, LO ${radianToDeg(lon2)}");
 
-    if (lon2 > PI) {
-      lon2 = lon2 - 2 * PI;
+    if (lon2 > pi) {
+      lon2 = lon2 - 2 * pi;
     }
-    if (lon2 < -1 * PI) {
-      lon2 = lon2 + 2 * PI;
+    if (lon2 < -1 * pi) {
+      lon2 = lon2 + 2 * pi;
     }
 
     return LatLng(radianToDeg(lat2), radianToDeg(lon2));

@@ -19,10 +19,12 @@
 
 import 'dart:math' as math;
 
+import 'package:logging/logging.dart';
+
 import '../latlong.dart';
 import '../spline/catmull_rom_spline.dart';
-import 'distance.dart';
-import 'lat_lng.dart';
+
+final _log = Logger('latlong');
 
 /// Necessary for creating new instances T extends LatLng (Path<T extends LatLng>)
 ///
@@ -116,7 +118,7 @@ class Path<T extends LatLng> {
         'Path distance must be at least ${stepDistance}mn (step distance) but was $baseLength');
 
     if (stepDistance > baseLength / 2) {
-      print(
+      _log.warning(
           'Equalizing the path (L: $baseLength) with a key-frame distance of $stepDistance leads to'
           'weired results. Turn of path smooting.');
     }

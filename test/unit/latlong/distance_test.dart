@@ -6,7 +6,7 @@ void main() {
     setUp(() {});
 
     test('> Radius', () {
-      expect(const Distance().radius, EARTH_RADIUS);
+      expect(const Distance().radius, earthRadius);
       expect(const Distance.withRadius(100.0).radius, 100.0);
     });
 
@@ -26,12 +26,12 @@ void main() {
       expect(distance(p1, p2) ~/ 1000, equals(10001));
 
       expect(
-          LengthUnit.Meter.to(LengthUnit.Kilometer, distance(p1, p2)).round(),
+          LengthUnit.meter.to(LengthUnit.kilometer, distance(p1, p2)).round(),
           equals(10002));
 
       // rounds to 10002
-      expect(distance.as(LengthUnit.Kilometer, p1, p2).round(), equals(10002));
-      expect(distance.as(LengthUnit.Meter, p1, p2).round(), equals(10001966));
+      expect(distance.as(LengthUnit.kilometer, p1, p2).round(), equals(10002));
+      expect(distance.as(LengthUnit.meter, p1, p2).round(), equals(10001966));
     });
 
     test('> Distance between 0 and 90.0 is 10001.96572931165 km ', () {
@@ -40,7 +40,7 @@ void main() {
       final p2 = LatLng(90.0, 0.0);
 
       expect(
-          distance.as(LengthUnit.Kilometer, p1, p2), equals(10001.96572931165));
+          distance.as(LengthUnit.kilometer, p1, p2), equals(10001.96572931165));
     });
 
     test('> distance between 0,-180 and 0,180 is 0', () {
@@ -65,7 +65,7 @@ void main() {
         expect(
             distance
                 .as(
-                  LengthUnit.Kilometer,
+                  LengthUnit.kilometer,
                   LatLng(52.518611, 13.408056),
                   LatLng(51.519475, 7.46694444),
                 )
@@ -131,7 +131,7 @@ void main() {
         () {
       const distance = Distance();
 
-      final distanceInMeter = (EARTH_RADIUS * PI / 2).roundToDouble();
+      final distanceInMeter = (earthRadius * pi / 2).roundToDouble();
       //print("Dist $distanceInMeter");
 
       final p1 = LatLng(0.0, 0.0);
@@ -147,7 +147,7 @@ void main() {
     test('offset from 0,0 with bearing 180 and distance ~ 5.000 km is -45,0',
         () {
       const distance = Distance();
-      final distanceInMeter = (EARTH_RADIUS * PI / 4).roundToDouble();
+      final distanceInMeter = (earthRadius * pi / 4).roundToDouble();
 
       final p1 = LatLng(0.0, 0.0);
       final p2 = distance.offset(p1, distanceInMeter, 180);
@@ -162,7 +162,7 @@ void main() {
     test('offset from 0,0 with bearing 180 and distance ~ 10.000 km is -90,180',
         () {
       const distance = Distance();
-      final distanceInMeter = (EARTH_RADIUS * PI / 2).roundToDouble();
+      final distanceInMeter = (earthRadius * pi / 2).roundToDouble();
 
       final p1 = LatLng(0.0, 0.0);
       final p2 = distance.offset(p1, distanceInMeter, 180);
@@ -173,7 +173,7 @@ void main() {
 
     test('offset from 0,0 with bearing 90 and distance ~ 5.000 km is 0,45', () {
       const distance = Distance();
-      final distanceInMeter = (EARTH_RADIUS * PI / 4).roundToDouble();
+      final distanceInMeter = (earthRadius * pi / 4).roundToDouble();
 
       final p1 = LatLng(0.0, 0.0);
       final p2 = distance.offset(p1, distanceInMeter, 90);

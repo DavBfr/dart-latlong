@@ -26,7 +26,7 @@ import 'lat_lng.dart';
 ///
 /// Circle uses by default the Vincenty-Algorithm for distance computations
 class Circle {
-  Circle(final this.center, this.radius,
+  Circle(this.center, this.radius,
       {final DistanceCalculator calculator = const Vincenty()})
       : _calculator = calculator;
 

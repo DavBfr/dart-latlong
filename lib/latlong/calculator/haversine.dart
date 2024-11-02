@@ -21,7 +21,6 @@ import 'dart:math' as math;
 
 import '../../latlong.dart';
 import '../interfaces.dart';
-import '../lat_lng.dart';
 
 class Haversine implements DistanceCalculator {
   const Haversine();
@@ -43,7 +42,7 @@ class Haversine implements DistanceCalculator {
             math.cos(p2.latitudeInRad);
     final c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a));
 
-    return EQUATOR_RADIUS * c;
+    return equatorialRadius * c;
   }
 
   /// Returns a destination point based on the given [distance] and [bearing]
@@ -67,7 +66,7 @@ class Haversine implements DistanceCalculator {
 
     final h = degToRadian(bearing);
 
-    final a = distanceInMeter / EQUATOR_RADIUS;
+    final a = distanceInMeter / equatorialRadius;
 
     final lat2 = math.asin(math.sin(from!.latitudeInRad) * math.cos(a) +
         math.cos(from.latitudeInRad) * math.sin(a) * math.cos(h));

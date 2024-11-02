@@ -20,11 +20,11 @@
 class LengthUnit {
   const LengthUnit(this.scaleFactor);
 
-  static const LengthUnit Millimeter = LengthUnit(1000.0);
-  static const LengthUnit Centimeter = LengthUnit(100.0);
-  static const LengthUnit Meter = LengthUnit(1.0);
-  static const LengthUnit Kilometer = LengthUnit(0.001);
-  static const LengthUnit Mile = LengthUnit(0.0006213712);
+  static const LengthUnit millimeter = LengthUnit(1000.0);
+  static const LengthUnit centimeter = LengthUnit(100.0);
+  static const LengthUnit meter = LengthUnit(1.0);
+  static const LengthUnit kilometer = LengthUnit(0.001);
+  static const LengthUnit mile = LengthUnit(0.0006213712);
 
   final double scaleFactor;
 

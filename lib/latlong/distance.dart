@@ -20,15 +20,11 @@
 import 'dart:math' as math;
 
 import '../latlong.dart';
-import 'calculator/haversine.dart';
-import 'calculator/vincenty.dart';
 import 'interfaces.dart';
-import 'lat_lng.dart';
-import 'length_unit.dart';
 
 /// Calculates the distance between points.
 ///
-/// Default algorithm is [distanceWithVincenty], default radius is [EARTH_RADIUS]
+/// Default algorithm is [distanceWithVincenty], default radius is [earthRadius]
 ///
 ///      final Distance distance = new Distance();
 ///
@@ -41,7 +37,7 @@ import 'length_unit.dart';
 ///
 class Distance implements DistanceCalculator {
   const Distance({final DistanceCalculator calculator = const Vincenty()})
-      : _radius = EARTH_RADIUS,
+      : _radius = earthRadius,
         _calculator = calculator;
 
   const Distance.withRadius(
@@ -76,7 +72,7 @@ class Distance implements DistanceCalculator {
   ///
   double as(final LengthUnit unit, final LatLng p1, final LatLng p2) {
     final dist = _calculator.distance(p1, p2);
-    return LengthUnit.Meter.to(unit, dist);
+    return LengthUnit.meter.to(unit, dist);
   }
 
   /// Computes the distance between two points.
@@ -137,9 +133,9 @@ class DistanceVincenty extends Distance {
   const DistanceVincenty() : super(calculator: const Vincenty());
 
   const DistanceVincenty.withRadius(
-    final double radius,
+    super.radius,
   )   : assert(radius > 0, 'Radius must be greater than 0 but was $radius'),
-        super.withRadius(radius, calculator: const Vincenty());
+        super.withRadius(calculator: const Vincenty());
 }
 
 /// Shortcut for
@@ -149,7 +145,7 @@ class DistanceHaversine extends Distance {
   const DistanceHaversine() : super(calculator: const Haversine());
 
   const DistanceHaversine.withRadius(
-    final double radius,
+    super.radius,
   )   : assert(radius > 0, 'Radius must be greater than 0 but was $radius'),
-        super.withRadius(radius, calculator: const Haversine());
+        super.withRadius(calculator: const Haversine());
 }

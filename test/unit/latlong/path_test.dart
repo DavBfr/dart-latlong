@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:latlong/latlong.dart';
 import 'package:test/test.dart';
 
@@ -188,7 +190,7 @@ void main() {
       final path = Path.from(route);
 
       expect(
-          round(LengthUnit.Meter.to(LengthUnit.Kilometer, path.distance),
+          round(LengthUnit.meter.to(LengthUnit.kilometer, path.distance),
               decimals: 3),
           3.377);
     });
@@ -228,12 +230,12 @@ void _exportForGoogleEarth(final Path steps, {final bool show = true}) {
   if (show) {
     const distance = Distance();
 
-    print('latitude,longitude,distance');
+    stdout.writeln('latitude,longitude,distance');
     for (var index = 0; index < steps.nrOfCoordinates - 1; index++) {
-      print(
+      stdout.writeln(
           '${steps[index].latitude}, ${steps[index].longitude}, ${distance(steps[index], steps[index + 1])}');
     }
 
-    print('${steps.last.latitude}, ${steps.last.longitude}, 0');
+    stdout.writeln('${steps.last.latitude}, ${steps.last.longitude}, 0');
   }
 }

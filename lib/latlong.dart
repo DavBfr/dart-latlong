@@ -38,6 +38,8 @@
 ///
 /// ![Map](http://www.isobudgets.com/wp-content/uploads/2014/03/latitude-longitude.jpg)
 ///
+library;
+
 import 'dart:math' as math;
 
 import 'package:intl/intl.dart';
@@ -51,25 +53,25 @@ export 'latlong/length_unit.dart';
 export 'latlong/path.dart';
 
 /// Equator radius in meter (WGS84 ellipsoid)
-const double EQUATOR_RADIUS = 6378137.0;
+const double equatorialRadius = 6378137.0;
 
 /// Polar radius in meter (WGS84 ellipsoid)
-const double POLAR_RADIUS = 6356752.314245;
+const double polarRadius = 6356752.314245;
 
 /// WGS84
-const double FLATTENING = 1 / 298.257223563;
+const double flattening = 1 / 298.257223563;
 
 /// Earth radius in meter
-const double EARTH_RADIUS = EQUATOR_RADIUS;
+const double earthRadius = equatorialRadius;
 
 /// The PI constant.
-const double PI = math.pi;
+const double pi = math.pi;
 
 /// Converts degree to radian
-double degToRadian(final double deg) => deg * (PI / 180.0);
+double degToRadian(final double deg) => deg * (pi / 180.0);
 
 /// Radian to degree
-double radianToDeg(final double rad) => rad * (180.0 / PI);
+double radianToDeg(final double rad) => rad * (180.0 / pi);
 
 /// Rounds [value] to given number of [decimals]
 double round(final double value, {final int decimals = 6}) =>
@@ -85,7 +87,7 @@ double normalizeBearing(final double bearing) => (bearing + 360) % 360;
 ///     expect(sexa1, '51° 31\' 10.11"');
 ///
 String decimal2sexagesimal(final double dec) {
-  List<int> _split(final double value) {
+  List<int> split(final double value) {
     // NumberFormat is necessary to create digit after comma if the value
     // has no decimal point (only necessary for browser)
     final tmp =
@@ -93,14 +95,14 @@ String decimal2sexagesimal(final double dec) {
     return <int>[int.parse(tmp[0]).abs(), int.parse(tmp[1])];
   }
 
-  final parts = _split(dec);
+  final parts = split(dec);
   final integerPart = parts[0];
   final fractionalPart = parts[1];
 
   final deg = integerPart;
   final min = double.parse('0.$fractionalPart') * 60;
 
-  final minParts = _split(min);
+  final minParts = split(min);
   final minFractionalPart = minParts[1];
 
   final sec = double.parse('0.$minFractionalPart') * 60;
